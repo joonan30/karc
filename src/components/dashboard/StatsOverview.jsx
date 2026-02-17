@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
 import { useLang } from '../../contexts/LangContext'
+import { Card, CardContent } from '@/components/ui/card'
 
 export default function StatsOverview() {
   const { t } = useLang()
@@ -53,15 +54,14 @@ export default function StatsOverview() {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {stats.map((stat) => (
-        <div
-          key={stat.label}
-          className="rounded-lg border border-gray-200 bg-white p-6"
-        >
-          <p className="text-sm font-medium text-slate-500">{stat.label}</p>
-          <p className="mt-1 text-3xl font-bold text-slate-900">
-            {loading ? '—' : stat.value}
-          </p>
-        </div>
+        <Card key={stat.label} className="py-0">
+          <CardContent className="p-6">
+            <p className="text-sm font-medium text-slate-500">{stat.label}</p>
+            <p className="mt-1 text-3xl font-bold text-slate-900">
+              {loading ? '—' : stat.value}
+            </p>
+          </CardContent>
+        </Card>
       ))}
     </div>
   )

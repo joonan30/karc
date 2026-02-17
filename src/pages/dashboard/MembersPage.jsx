@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../contexts/AuthContext'
 import { useLang } from '../../contexts/LangContext'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
 
 const roleBadge = {
   admin: 'bg-red-100 text-red-700',
@@ -82,37 +85,34 @@ export default function MembersPage() {
               {lang === 'ko' ? '승인 대기' : 'Pending Approval'}
             </h2>
             <div className="mt-4 overflow-x-auto rounded-lg border border-yellow-200 bg-yellow-50">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-yellow-200 text-left text-sm text-slate-600">
-                    <th className="py-3 px-4 font-semibold">{lang === 'ko' ? '이름' : 'Name'}</th>
-                    <th className="py-3 px-4 font-semibold">{lang === 'ko' ? '소속' : 'Institution'}</th>
-                    <th className="py-3 px-4 font-semibold">{lang === 'ko' ? '가입일' : 'Joined'}</th>
-                    {isAdmin && <th className="py-3 px-4 font-semibold">{lang === 'ko' ? '관리' : 'Action'}</th>}
-                  </tr>
-                </thead>
-                <tbody>
+              <Table>
+                <TableHeader>
+                  <TableRow className="border-b border-yellow-200">
+                    <TableHead className="py-3 px-4">{lang === 'ko' ? '이름' : 'Name'}</TableHead>
+                    <TableHead className="py-3 px-4">{lang === 'ko' ? '소속' : 'Institution'}</TableHead>
+                    <TableHead className="py-3 px-4">{lang === 'ko' ? '가입일' : 'Joined'}</TableHead>
+                    {isAdmin && <TableHead className="py-3 px-4">{lang === 'ko' ? '관리' : 'Action'}</TableHead>}
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
                   {pendingMembers.map((m) => (
-                    <tr key={m.id} className="border-b border-yellow-100">
-                      <td className="py-3 px-4 font-medium text-slate-900">{m.full_name || '-'}</td>
-                      <td className="py-3 px-4 text-slate-600">{m.institution || '-'}</td>
-                      <td className="py-3 px-4 text-sm text-slate-500">
+                    <TableRow key={m.id} className="border-b border-yellow-100">
+                      <TableCell className="py-3 px-4 font-medium text-slate-900">{m.full_name || '-'}</TableCell>
+                      <TableCell className="py-3 px-4 text-slate-600">{m.institution || '-'}</TableCell>
+                      <TableCell className="py-3 px-4 text-sm text-slate-500">
                         {new Date(m.created_at).toLocaleDateString()}
-                      </td>
+                      </TableCell>
                       {isAdmin && (
-                        <td className="py-3 px-4">
-                          <button
-                            onClick={() => toggleApproval(m)}
-                            className="rounded-md bg-green-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-green-700 transition-colors"
-                          >
+                        <TableCell className="py-3 px-4">
+                          <Button size="sm" onClick={() => toggleApproval(m)} className="bg-green-600 hover:bg-green-700">
                             {lang === 'ko' ? '승인' : 'Approve'}
-                          </button>
-                        </td>
+                          </Button>
+                        </TableCell>
                       )}
-                    </tr>
+                    </TableRow>
                   ))}
-                </tbody>
-              </table>
+                </TableBody>
+              </Table>
             </div>
           </div>
         )}
@@ -122,23 +122,23 @@ export default function MembersPage() {
           <h2 className="text-lg font-semibold text-slate-900">
             {lang === 'ko' ? '승인된 회원' : 'Approved Members'}
           </h2>
-          <div className="mt-4 overflow-x-auto rounded-lg border border-gray-200 bg-white">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-gray-200 text-left text-sm text-slate-600">
-                  <th className="py-3 px-4 font-semibold">{lang === 'ko' ? '이름' : 'Name'}</th>
-                  <th className="py-3 px-4 font-semibold">{lang === 'ko' ? '소속' : 'Institution'}</th>
-                  <th className="py-3 px-4 font-semibold">{lang === 'ko' ? '등급' : 'Role'}</th>
-                  <th className="py-3 px-4 font-semibold">{lang === 'ko' ? '가입일' : 'Joined'}</th>
-                  {isAdmin && <th className="py-3 px-4 font-semibold">{lang === 'ko' ? '관리' : 'Actions'}</th>}
-                </tr>
-              </thead>
-              <tbody>
+          <div className="mt-4 overflow-x-auto rounded-lg border border-gray-200">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="py-3 px-4">{lang === 'ko' ? '이름' : 'Name'}</TableHead>
+                  <TableHead className="py-3 px-4">{lang === 'ko' ? '소속' : 'Institution'}</TableHead>
+                  <TableHead className="py-3 px-4">{lang === 'ko' ? '등급' : 'Role'}</TableHead>
+                  <TableHead className="py-3 px-4">{lang === 'ko' ? '가입일' : 'Joined'}</TableHead>
+                  {isAdmin && <TableHead className="py-3 px-4">{lang === 'ko' ? '관리' : 'Actions'}</TableHead>}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
                 {approvedMembers.map((m) => (
-                  <tr key={m.id} className="border-b border-gray-100 hover:bg-gray-50">
-                    <td className="py-3 px-4 font-medium text-slate-900">{m.full_name || '-'}</td>
-                    <td className="py-3 px-4 text-slate-600">{m.institution || '-'}</td>
-                    <td className="py-3 px-4">
+                  <TableRow key={m.id}>
+                    <TableCell className="py-3 px-4 font-medium text-slate-900">{m.full_name || '-'}</TableCell>
+                    <TableCell className="py-3 px-4 text-slate-600">{m.institution || '-'}</TableCell>
+                    <TableCell className="py-3 px-4">
                       {isAdmin ? (
                         <select
                           value={m.role}
@@ -150,28 +150,25 @@ export default function MembersPage() {
                           ))}
                         </select>
                       ) : (
-                        <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${roleBadge[m.role] || roleBadge.viewer}`}>
+                        <Badge variant="secondary" className={roleBadge[m.role] || roleBadge.viewer}>
                           {m.role}
-                        </span>
+                        </Badge>
                       )}
-                    </td>
-                    <td className="py-3 px-4 text-sm text-slate-500">
+                    </TableCell>
+                    <TableCell className="py-3 px-4 text-sm text-slate-500">
                       {new Date(m.created_at).toLocaleDateString()}
-                    </td>
+                    </TableCell>
                     {isAdmin && (
-                      <td className="py-3 px-4">
-                        <button
-                          onClick={() => toggleApproval(m)}
-                          className="text-sm text-red-600 hover:text-red-700 font-medium"
-                        >
+                      <TableCell className="py-3 px-4">
+                        <Button variant="ghost" size="sm" onClick={() => toggleApproval(m)} className="text-red-600 hover:text-red-700">
                           {lang === 'ko' ? '승인 취소' : 'Revoke'}
-                        </button>
-                      </td>
+                        </Button>
+                      </TableCell>
                     )}
-                  </tr>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
+              </TableBody>
+            </Table>
           </div>
         </div>
       </div>

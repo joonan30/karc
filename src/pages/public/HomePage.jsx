@@ -1,5 +1,6 @@
 import Hero from '../../components/public/Hero'
 import ResearchCard from '../../components/public/ResearchCard'
+import { Card, CardContent } from '@/components/ui/card'
 import { useLang } from '../../contexts/LangContext'
 import iconGenomics from '../../assets/icons/icon-genomics.png'
 import iconClinical from '../../assets/icons/icon-clinical.png'
@@ -84,11 +85,13 @@ export default function HomePage() {
           <h2 className="text-center text-3xl font-bold text-slate-900">{t('home.stats.title')}</h2>
           <div className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
             {stats.map((s) => (
-              <div key={s.key} className="rounded-lg bg-primary-50 p-6 text-center">
-                <img src={statIcons[s.key]} alt="" className="mx-auto h-10 w-10 object-contain mb-2" />
-                <p className="text-3xl font-bold text-primary-700">{s.value}</p>
-                <p className="mt-1 text-base font-medium text-slate-600">{t(`home.stats.${s.key}`)}</p>
-              </div>
+              <Card key={s.key} className="bg-primary-50 border-none py-0">
+                <CardContent className="p-6 text-center">
+                  <img src={statIcons[s.key]} alt="" className="mx-auto h-10 w-10 object-contain mb-2" />
+                  <p className="text-3xl font-bold text-primary-700">{s.value}</p>
+                  <p className="mt-1 text-base font-medium text-slate-600">{t(`home.stats.${s.key}`)}</p>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>
@@ -115,11 +118,13 @@ export default function HomePage() {
           <h2 className="text-3xl font-bold text-slate-900">{t('home.updates')}</h2>
           <div className="mt-8 space-y-6">
             {recentUpdates.map((update) => (
-              <div key={update.title} className="rounded-lg border border-gray-200 bg-white p-6">
-                <span className="text-base font-medium text-primary-600">{update.date}</span>
-                <h3 className="mt-1 text-xl font-semibold text-slate-900">{update.title}</h3>
-                <p className="mt-1 text-base text-slate-600">{update.description}</p>
-              </div>
+              <Card key={update.title} className="py-0">
+                <CardContent className="p-6">
+                  <span className="text-base font-medium text-primary-600">{update.date}</span>
+                  <h3 className="mt-1 text-xl font-semibold text-slate-900">{update.title}</h3>
+                  <p className="mt-1 text-base text-slate-600">{update.description}</p>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>

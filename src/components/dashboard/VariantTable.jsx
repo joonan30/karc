@@ -1,4 +1,7 @@
 import { useLang } from '../../contexts/LangContext'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
 
 const significanceBadge = {
   pathogenic: 'bg-red-100 text-red-700',
@@ -18,56 +21,50 @@ export default function VariantTable({ variants, canEdit, onEdit, onDelete }) {
   const { t } = useLang()
 
   return (
-    <div className="overflow-x-auto rounded-lg border border-gray-200">
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
-          <tr>
-            <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">{t('variants.gene')}</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">{t('variants.variant')}</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">{t('variants.type')}</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">{t('variants.significance')}</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">{t('variants.families')}</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">{t('variants.inheritance')}</th>
+    <div className="rounded-lg border border-gray-200">
+      <Table>
+        <TableHeader>
+          <TableRow className="bg-gray-50">
+            <TableHead className="px-4 py-3">{t('variants.gene')}</TableHead>
+            <TableHead className="px-4 py-3">{t('variants.variant')}</TableHead>
+            <TableHead className="px-4 py-3">{t('variants.type')}</TableHead>
+            <TableHead className="px-4 py-3">{t('variants.significance')}</TableHead>
+            <TableHead className="px-4 py-3">{t('variants.families')}</TableHead>
+            <TableHead className="px-4 py-3">{t('variants.inheritance')}</TableHead>
             {canEdit && (
-              <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">{t('variants.actions')}</th>
+              <TableHead className="px-4 py-3">{t('variants.actions')}</TableHead>
             )}
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-200 bg-white">
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {variants.map((v) => (
-            <tr key={v.id} className="hover:bg-gray-50">
-              <td className="px-4 py-3 text-sm font-medium text-primary-600">{v.gene}</td>
-              <td className="px-4 py-3 text-sm text-slate-700 font-mono">{v.variant}</td>
-              <td className="px-4 py-3 text-sm text-slate-600">{v.type}</td>
-              <td className="px-4 py-3">
-                <span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${significanceBadge[v.significance] || 'bg-gray-100 text-gray-700'}`}>
+            <TableRow key={v.id}>
+              <TableCell className="px-4 py-3 font-medium text-primary-600">{v.gene}</TableCell>
+              <TableCell className="px-4 py-3 text-slate-700 font-mono">{v.variant}</TableCell>
+              <TableCell className="px-4 py-3 text-slate-600">{v.type}</TableCell>
+              <TableCell className="px-4 py-3">
+                <Badge variant="secondary" className={significanceBadge[v.significance] || 'bg-gray-100 text-gray-700'}>
                   {significanceLabel[v.significance] || v.significance}
-                </span>
-              </td>
-              <td className="px-4 py-3 text-sm text-slate-600">{v.families}</td>
-              <td className="px-4 py-3 text-sm text-slate-600">{v.inheritance || '-'}</td>
+                </Badge>
+              </TableCell>
+              <TableCell className="px-4 py-3 text-slate-600">{v.families}</TableCell>
+              <TableCell className="px-4 py-3 text-slate-600">{v.inheritance || '-'}</TableCell>
               {canEdit && (
-                <td className="px-4 py-3">
+                <TableCell className="px-4 py-3">
                   <div className="flex gap-2">
-                    <button
-                      onClick={() => onEdit(v)}
-                      className="text-sm text-primary-600 hover:text-primary-700 font-medium"
-                    >
+                    <Button variant="ghost" size="sm" onClick={() => onEdit(v)} className="text-primary-600 hover:text-primary-700">
                       {t('variants.edit')}
-                    </button>
-                    <button
-                      onClick={() => onDelete(v)}
-                      className="text-sm text-red-600 hover:text-red-700 font-medium"
-                    >
+                    </Button>
+                    <Button variant="ghost" size="sm" onClick={() => onDelete(v)} className="text-red-600 hover:text-red-700">
                       {t('variants.delete')}
-                    </button>
+                    </Button>
                   </div>
-                </td>
+                </TableCell>
               )}
-            </tr>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   )
 }

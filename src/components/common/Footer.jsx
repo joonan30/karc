@@ -35,11 +35,7 @@ export default function Footer() {
                   {t('nav.research')}
                 </Link>
               </li>
-              <li>
-                <Link to="/participate" className="text-sm text-slate-500 hover:text-slate-700">
-                  {t('nav.participate')}
-                </Link>
-              </li>
+              {/* Participate link hidden until IRB approval */}
               <li>
                 <Link to="/support" className="text-sm text-slate-500 hover:text-slate-700">
                   {t('nav.support')}

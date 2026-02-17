@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
 import { useLang } from '../../contexts/LangContext'
+import { Card, CardContent } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
 
 export default function ResearchersPage() {
   const { t } = useLang()
@@ -44,30 +46,31 @@ export default function ResearchersPage() {
         ) : (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {researchers.map((researcher) => (
-              <div
-                key={researcher.id}
-                className="rounded-lg border border-gray-200 bg-white p-6"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-100 text-primary-700 font-semibold text-sm">
-                    {(researcher.full_name || '?')[0].toUpperCase()}
+              <Card key={researcher.id} className="py-0">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-100 text-primary-700 font-semibold text-sm">
+                      {(researcher.full_name || '?')[0].toUpperCase()}
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-slate-900">
+                        {researcher.full_name || '-'}
+                      </h3>
+                      <Badge variant="secondary" className="bg-primary-100 text-primary-700">
+                        {researcher.role}
+                      </Badge>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-slate-900">
-                      {researcher.full_name || '-'}
-                    </h3>
-                    <p className="text-xs text-primary-600">{researcher.role}</p>
+                  <div className="mt-4 space-y-1">
+                    <p className="text-sm text-slate-600">
+                      {researcher.institution || '-'}
+                    </p>
+                    <p className="text-xs text-slate-400">
+                      {researcher.expertise || '-'}
+                    </p>
                   </div>
-                </div>
-                <div className="mt-4 space-y-1">
-                  <p className="text-sm text-slate-600">
-                    {researcher.institution || '-'}
-                  </p>
-                  <p className="text-xs text-slate-400">
-                    {researcher.expertise || '-'}
-                  </p>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
         )}

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useLang } from '../../contexts/LangContext'
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
+import { Button } from '@/components/ui/button'
 import logo from '../../assets/icons/logo.png'
 
 const phrases = [
@@ -106,18 +107,16 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.6 }}
           className="mt-8 flex justify-center gap-4"
         >
-          <Link
-            to="/about"
-            className="rounded-md bg-primary-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-primary-700 transition-colors"
-          >
-            {t('hero.learnMore')}
-          </Link>
-          <Link
-            to="/research"
-            className="rounded-md border border-slate-300 bg-white px-6 py-3 text-base font-semibold text-slate-700 shadow-sm hover:bg-gray-50 transition-colors"
-          >
-            {t('hero.ourResearch')}
-          </Link>
+          <Button asChild size="lg" className="text-base font-semibold">
+            <Link to="/about">
+              {t('hero.learnMore')}
+            </Link>
+          </Button>
+          <Button asChild variant="outline" size="lg" className="text-base font-semibold">
+            <Link to="/research">
+              {t('hero.ourResearch')}
+            </Link>
+          </Button>
         </motion.div>
       </div>
     </section>

@@ -77,7 +77,7 @@ const translations = {
   },
   'about.leadership': { en: 'Leadership', ko: '연구 리더십' },
   'about.director': { en: 'Director', ko: '연구 총괄' },
-  'about.director.name': { en: 'Prof. Heejeong Yoo', ko: '유희정 교수' },
+  'about.director.name': { en: 'Prof. Hee Jeong Yoo', ko: '유희정 교수' },
   'about.director.affiliation': {
     en: 'Department of Psychiatry, Seoul National University Bundang Hospital',
     ko: '분당서울대학병원 정신건강의학과',

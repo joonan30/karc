@@ -6,7 +6,7 @@ import HomePage from './pages/public/HomePage'
 import AboutPage from './pages/public/AboutPage'
 import ResearchPage from './pages/public/ResearchPage'
 import DataPage from './pages/public/DataPage'
-import ParticipatePage from './pages/public/ParticipatePage'
+// import ParticipatePage from './pages/public/ParticipatePage'  // Hidden until IRB approval
 import SupportPage from './pages/public/SupportPage'
 import LoginPage from './pages/auth/LoginPage'
 import SignupPage from './pages/auth/SignupPage'
@@ -27,7 +27,7 @@ export default function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/research" element={<ResearchPage />} />
         <Route path="/data" element={<DataPage />} />
-        <Route path="/participate" element={<ParticipatePage />} />
+        {/* <Route path="/participate" element={<ParticipatePage />} /> */}{/* Hidden until IRB approval */}
         <Route path="/support" element={<SupportPage />} />
 
         {/* Auth routes */}

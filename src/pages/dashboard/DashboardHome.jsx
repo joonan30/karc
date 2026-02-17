@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../contexts/AuthContext'
 import { useLang } from '../../contexts/LangContext'
+import { Card, CardContent } from '@/components/ui/card'
 import StatsOverview from '../../components/dashboard/StatsOverview'
 
 function timeAgo(dateStr, lang) {
@@ -74,38 +75,40 @@ export default function DashboardHome() {
           <h2 className="text-lg font-semibold text-slate-900">
             {t('dashboard.recentActivity')}
           </h2>
-          <div className="mt-4 rounded-lg border border-gray-200 bg-white divide-y divide-gray-100">
-            {loading ? (
-              <div className="flex items-center justify-center py-8">
-                <div className="h-6 w-6 animate-spin rounded-full border-4 border-primary-600 border-t-transparent" />
-              </div>
-            ) : activities.length === 0 ? (
-              <div className="px-6 py-8 text-center text-sm text-slate-500">
-                {t('dashboard.noActivity')}
-              </div>
-            ) : (
-              activities.map((item) => (
-                <div key={item.id} className="flex items-center justify-between px-6 py-4">
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">
-                      {actionLabels[item.action]?.[lang] || item.action}
-                    </p>
-                    <p className="text-sm text-slate-500">
-                      {item.detail}
-                      {item.user?.full_name && (
-                        <span className="ml-2 text-xs text-slate-400">
-                          — {item.user.full_name}
-                        </span>
-                      )}
-                    </p>
-                  </div>
-                  <span className="text-xs text-slate-400 whitespace-nowrap ml-4">
-                    {timeAgo(item.created_at, lang)}
-                  </span>
+          <Card className="mt-4 py-0 gap-0">
+            <CardContent className="p-0 divide-y divide-gray-100">
+              {loading ? (
+                <div className="flex items-center justify-center py-8">
+                  <div className="h-6 w-6 animate-spin rounded-full border-4 border-primary-600 border-t-transparent" />
                 </div>
-              ))
-            )}
-          </div>
+              ) : activities.length === 0 ? (
+                <div className="px-6 py-8 text-center text-sm text-slate-500">
+                  {t('dashboard.noActivity')}
+                </div>
+              ) : (
+                activities.map((item) => (
+                  <div key={item.id} className="flex items-center justify-between px-6 py-4">
+                    <div>
+                      <p className="text-sm font-medium text-slate-900">
+                        {actionLabels[item.action]?.[lang] || item.action}
+                      </p>
+                      <p className="text-sm text-slate-500">
+                        {item.detail}
+                        {item.user?.full_name && (
+                          <span className="ml-2 text-xs text-slate-400">
+                            — {item.user.full_name}
+                          </span>
+                        )}
+                      </p>
+                    </div>
+                    <span className="text-xs text-slate-400 whitespace-nowrap ml-4">
+                      {timeAgo(item.created_at, lang)}
+                    </span>
+                  </div>
+                ))
+              )}
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

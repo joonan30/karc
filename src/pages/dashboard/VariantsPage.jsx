@@ -2,6 +2,10 @@ import { useState, useEffect, useRef } from 'react'
 import { supabase, logActivity } from '../../lib/supabase'
 import { useAuth } from '../../contexts/AuthContext'
 import { useLang } from '../../contexts/LangContext'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import VariantTable from '../../components/dashboard/VariantTable'
 
 const PAGE_SIZE = 20
@@ -216,21 +220,22 @@ export default function VariantsPage() {
           </div>
           {canEdit && (
             <div className="flex gap-2">
-              <button
-                onClick={openAddModal}
-                className="rounded-md bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-700 transition-colors"
-              >
+              <Button onClick={openAddModal}>
                 {t('variants.addVariant')}
-              </button>
-              <label className="cursor-pointer rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 transition-colors">
-                {t('variants.uploadCsv')}
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept=".csv"
-                  onChange={handleCsvUpload}
-                  className="hidden"
-                />
+              </Button>
+              <label className="cursor-pointer">
+                <Button variant="outline" asChild>
+                  <span>
+                    {t('variants.uploadCsv')}
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept=".csv"
+                      onChange={handleCsvUpload}
+                      className="hidden"
+                    />
+                  </span>
+                </Button>
               </label>
             </div>
           )}
@@ -250,12 +255,12 @@ export default function VariantsPage() {
 
         {/* Filters */}
         <div className="flex flex-wrap gap-2 mb-4">
-          <input
+          <Input
             type="text"
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             placeholder={t('variants.search')}
-            className="rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none"
+            className="w-auto"
           />
           <select
             value={typeFilter}
@@ -303,97 +308,91 @@ export default function VariantsPage() {
               : lang === 'ko' ? '변이 없음' : 'No variants'}
           </p>
           <div className="flex gap-2">
-            <button
+            <Button
+              variant="outline"
+              size="sm"
               onClick={() => setPage((p) => Math.max(0, p - 1))}
               disabled={page === 0}
-              className="rounded-md border border-gray-300 px-3 py-1 hover:bg-gray-50 disabled:opacity-40"
             >
               {t('variants.previous')}
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
               onClick={() => setPage((p) => p + 1)}
               disabled={page >= totalPages - 1}
-              className="rounded-md border border-gray-300 px-3 py-1 hover:bg-gray-50 disabled:opacity-40"
             >
               {t('variants.next')}
-            </button>
+            </Button>
           </div>
         </div>
 
-        {/* Add/Edit Modal */}
-        {showModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-            <div className="w-full max-w-lg rounded-lg bg-white p-6 shadow-xl max-h-[90vh] overflow-y-auto">
-              <h3 className="text-lg font-semibold text-slate-900 mb-4">
+        {/* Add/Edit Dialog */}
+        <Dialog open={showModal} onOpenChange={setShowModal}>
+          <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>
                 {editingVariant ? t('variants.edit') : t('variants.addVariant')}
-              </h3>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-slate-700">{t('variants.gene')} *</label>
-                  <input type="text" value={form.gene} onChange={(e) => setForm({ ...form, gene: e.target.value })}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700">{t('variants.variant')} *</label>
-                  <input type="text" value={form.variant} onChange={(e) => setForm({ ...form, variant: e.target.value })}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700">{t('variants.type')} *</label>
-                  <select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none">
-                    {typeOptions.map((o) => <option key={o} value={o}>{o}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700">{t('variants.significance')} *</label>
-                  <select value={form.significance} onChange={(e) => setForm({ ...form, significance: e.target.value })}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none">
-                    {significanceOptions.map((o) => <option key={o} value={o}>{o}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700">{t('variants.families')}</label>
-                  <input type="number" value={form.families} onChange={(e) => setForm({ ...form, families: e.target.value })}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700">{t('variants.chromosome')}</label>
-                  <input type="text" value={form.chromosome} onChange={(e) => setForm({ ...form, chromosome: e.target.value })}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700">{t('variants.position')}</label>
-                  <input type="number" value={form.position} onChange={(e) => setForm({ ...form, position: e.target.value })}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700">{t('variants.inheritance')}</label>
-                  <select value={form.inheritance} onChange={(e) => setForm({ ...form, inheritance: e.target.value })}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none">
-                    {inheritanceOptions.map((o) => <option key={o} value={o}>{o}</option>)}
-                  </select>
-                </div>
-                <div className="col-span-2">
-                  <label className="block text-sm font-medium text-slate-700">{t('variants.notes')}</label>
-                  <textarea value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} rows={2}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none" />
-                </div>
+              </DialogTitle>
+            </DialogHeader>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>{t('variants.gene')} *</Label>
+                <Input type="text" value={form.gene} onChange={(e) => setForm({ ...form, gene: e.target.value })} />
               </div>
-              <div className="mt-6 flex justify-end gap-3">
-                <button onClick={() => setShowModal(false)}
-                  className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-gray-50">
-                  {t('variants.cancel')}
-                </button>
-                <button onClick={handleSave}
-                  disabled={!form.gene || !form.variant}
-                  className="rounded-md bg-primary-600 px-4 py-2 text-sm font-semibold text-white hover:bg-primary-700 disabled:opacity-50">
-                  {t('variants.save')}
-                </button>
+              <div className="space-y-2">
+                <Label>{t('variants.variant')} *</Label>
+                <Input type="text" value={form.variant} onChange={(e) => setForm({ ...form, variant: e.target.value })} />
+              </div>
+              <div className="space-y-2">
+                <Label>{t('variants.type')} *</Label>
+                <select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })}
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none">
+                  {typeOptions.map((o) => <option key={o} value={o}>{o}</option>)}
+                </select>
+              </div>
+              <div className="space-y-2">
+                <Label>{t('variants.significance')} *</Label>
+                <select value={form.significance} onChange={(e) => setForm({ ...form, significance: e.target.value })}
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none">
+                  {significanceOptions.map((o) => <option key={o} value={o}>{o}</option>)}
+                </select>
+              </div>
+              <div className="space-y-2">
+                <Label>{t('variants.families')}</Label>
+                <Input type="number" value={form.families} onChange={(e) => setForm({ ...form, families: e.target.value })} />
+              </div>
+              <div className="space-y-2">
+                <Label>{t('variants.chromosome')}</Label>
+                <Input type="text" value={form.chromosome} onChange={(e) => setForm({ ...form, chromosome: e.target.value })} />
+              </div>
+              <div className="space-y-2">
+                <Label>{t('variants.position')}</Label>
+                <Input type="number" value={form.position} onChange={(e) => setForm({ ...form, position: e.target.value })} />
+              </div>
+              <div className="space-y-2">
+                <Label>{t('variants.inheritance')}</Label>
+                <select value={form.inheritance} onChange={(e) => setForm({ ...form, inheritance: e.target.value })}
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none">
+                  {inheritanceOptions.map((o) => <option key={o} value={o}>{o}</option>)}
+                </select>
+              </div>
+              <div className="col-span-2 space-y-2">
+                <Label>{t('variants.notes')}</Label>
+                <textarea value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} rows={2}
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none" />
               </div>
             </div>
-          </div>
-        )}
+            <div className="mt-4 flex justify-end gap-3">
+              <Button variant="outline" onClick={() => setShowModal(false)}>
+                {t('variants.cancel')}
+              </Button>
+              <Button onClick={handleSave} disabled={!form.gene || !form.variant}>
+                {t('variants.save')}
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   )

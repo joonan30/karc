@@ -2,6 +2,11 @@ import { useState } from 'react'
 import { supabase, logActivity } from '../../lib/supabase'
 import { useAuth } from '../../contexts/AuthContext'
 import { useLang } from '../../contexts/LangContext'
+import { Card, CardContent } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 
 export default function ProfilePage() {
   const { user, profile, refreshProfile } = useAuth()
@@ -40,84 +45,71 @@ export default function ProfilePage() {
       <div className="mx-auto max-w-6xl px-4">
         <h1 className="text-2xl font-bold text-slate-900">{t('profile.title')}</h1>
 
-        <div className="mt-6 rounded-lg border border-gray-200 bg-white p-8">
-          <div className="flex items-center gap-4">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary-100 text-primary-700 font-bold text-xl">
-              {(profile?.full_name || user?.email || '?')[0].toUpperCase()}
+        <Card className="mt-6 py-0">
+          <CardContent className="p-8">
+            <div className="flex items-center gap-4">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary-100 text-primary-700 font-bold text-xl">
+                {(profile?.full_name || user?.email || '?')[0].toUpperCase()}
+              </div>
+              <div>
+                <h2 className="text-xl font-semibold text-slate-900">
+                  {profile?.full_name || 'Researcher'}
+                </h2>
+                <p className="text-sm text-slate-500">{user?.email}</p>
+                <Badge variant="secondary" className="mt-1 bg-primary-100 text-primary-700">
+                  {profile?.role || 'researcher'}
+                </Badge>
+              </div>
             </div>
-            <div>
-              <h2 className="text-xl font-semibold text-slate-900">
-                {profile?.full_name || 'Researcher'}
-              </h2>
-              <p className="text-sm text-slate-500">{user?.email}</p>
-              <span className="mt-1 inline-flex rounded-full bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-700">
-                {profile?.role || 'researcher'}
-              </span>
-            </div>
-          </div>
 
-          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div>
-              <label className="block text-sm font-medium text-slate-700">
-                {t('profile.fullName')}
-              </label>
-              <input
-                type="text"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none"
-              />
+            <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
+              <div className="space-y-2">
+                <Label>{t('profile.fullName')}</Label>
+                <Input
+                  type="text"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>{t('profile.email')}</Label>
+                <Input
+                  type="email"
+                  defaultValue={user?.email || ''}
+                  disabled
+                  className="bg-gray-50 text-slate-500"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>{t('profile.institution')}</Label>
+                <Input
+                  type="text"
+                  value={institution}
+                  onChange={(e) => setInstitution(e.target.value)}
+                  placeholder="소속 기관"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>{t('profile.expertise')}</Label>
+                <Input
+                  type="text"
+                  value={expertise}
+                  onChange={(e) => setExpertise(e.target.value)}
+                  placeholder="전문 분야"
+                />
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700">
-                {t('profile.email')}
-              </label>
-              <input
-                type="email"
-                defaultValue={user?.email || ''}
-                disabled
-                className="mt-1 block w-full rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-slate-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700">
-                {t('profile.institution')}
-              </label>
-              <input
-                type="text"
-                value={institution}
-                onChange={(e) => setInstitution(e.target.value)}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none"
-                placeholder="소속 기관"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700">
-                {t('profile.expertise')}
-              </label>
-              <input
-                type="text"
-                value={expertise}
-                onChange={(e) => setExpertise(e.target.value)}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none"
-                placeholder="전문 분야"
-              />
-            </div>
-          </div>
 
-          <div className="mt-6 flex items-center gap-4">
-            <button
-              onClick={handleSave}
-              disabled={saving}
-              className="rounded-md bg-primary-600 px-6 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-700 transition-colors disabled:opacity-50"
-            >
-              {saving ? t('profile.saving') : t('profile.save')}
-            </button>
-            {saved && (
-              <span className="text-sm text-green-600">{t('profile.saved')}</span>
-            )}
-          </div>
-        </div>
+            <div className="mt-6 flex items-center gap-4">
+              <Button onClick={handleSave} disabled={saving}>
+                {saving ? t('profile.saving') : t('profile.save')}
+              </Button>
+              {saved && (
+                <span className="text-sm text-green-600">{t('profile.saved')}</span>
+              )}
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   )

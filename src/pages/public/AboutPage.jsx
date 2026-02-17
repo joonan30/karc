@@ -1,4 +1,5 @@
 import { useLang } from '../../contexts/LangContext'
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import iconCollaboration from '../../assets/icons/icon-collaboration.png'
 import iconAiBrain from '../../assets/icons/icon-ai-brain.png'
 import iconClinicalBrain from '../../assets/icons/icon-clinical-brain.png'
@@ -57,6 +58,12 @@ export default function AboutPage() {
 
   const areas = ['OmicsAI', 'Clinical', 'Molecular', 'International']
 
+  const leaders = [
+    { role: t('about.director'), name: t('about.director.name'), affiliation: t('about.director.affiliation'), desc: t('about.director.desc') },
+    { role: t('about.coleadGenomics'), name: t('about.coleadGenomics.name'), affiliation: t('about.coleadGenomics.affiliation'), desc: t('about.coleadGenomics.desc') },
+    { role: t('about.coleadFunctional'), name: t('about.coleadFunctional.name'), affiliation: t('about.coleadFunctional.affiliation'), desc: t('about.coleadFunctional.desc') },
+  ]
+
   return (
     <div>
       {/* Header */}
@@ -77,27 +84,18 @@ export default function AboutPage() {
         <div className="mx-auto max-w-6xl px-4">
           <h2 className="text-2xl font-bold text-slate-900">{t('about.leadership')}</h2>
           <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
-            {/* Director - Yoo */}
-            <div className="rounded-lg border border-gray-200 bg-white p-6">
-              <p className="text-sm font-semibold text-primary-600 uppercase tracking-wider">{t('about.director')}</p>
-              <h3 className="mt-2 text-xl font-semibold text-slate-900">{t('about.director.name')}</h3>
-              <p className="text-base text-slate-500">{t('about.director.affiliation')}</p>
-              <p className="mt-3 text-base text-slate-600">{t('about.director.desc')}</p>
-            </div>
-            {/* Genomics - An */}
-            <div className="rounded-lg border border-gray-200 bg-white p-6">
-              <p className="text-sm font-semibold text-primary-600 uppercase tracking-wider">{t('about.coleadGenomics')}</p>
-              <h3 className="mt-2 text-xl font-semibold text-slate-900">{t('about.coleadGenomics.name')}</h3>
-              <p className="text-base text-slate-500">{t('about.coleadGenomics.affiliation')}</p>
-              <p className="mt-3 text-base text-slate-600">{t('about.coleadGenomics.desc')}</p>
-            </div>
-            {/* Functional - Kim */}
-            <div className="rounded-lg border border-gray-200 bg-white p-6">
-              <p className="text-sm font-semibold text-primary-600 uppercase tracking-wider">{t('about.coleadFunctional')}</p>
-              <h3 className="mt-2 text-xl font-semibold text-slate-900">{t('about.coleadFunctional.name')}</h3>
-              <p className="text-base text-slate-500">{t('about.coleadFunctional.affiliation')}</p>
-              <p className="mt-3 text-base text-slate-600">{t('about.coleadFunctional.desc')}</p>
-            </div>
+            {leaders.map((leader) => (
+              <Card key={leader.name} className="py-0">
+                <CardHeader className="pb-0 pt-6">
+                  <p className="text-sm font-semibold text-primary-600 uppercase tracking-wider">{leader.role}</p>
+                  <CardTitle className="text-xl">{leader.name}</CardTitle>
+                  <CardDescription className="text-base">{leader.affiliation}</CardDescription>
+                </CardHeader>
+                <CardContent className="pb-6">
+                  <p className="text-base text-slate-600">{leader.desc}</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
@@ -115,12 +113,14 @@ export default function AboutPage() {
                 {members
                   .filter((m) => m.area === area)
                   .map((m) => (
-                    <div key={m.name} className="rounded-lg border border-gray-200 bg-white px-4 py-3">
-                      <p className="text-base font-medium text-slate-700">
-                        {lang === 'ko' && m.name_ko ? m.name_ko : m.name}
-                      </p>
-                      <p className="text-sm text-slate-500">{lang === 'ko' && m.institution_ko ? m.institution_ko : m.institution}</p>
-                    </div>
+                    <Card key={m.name} className="py-0">
+                      <CardContent className="px-4 py-3">
+                        <p className="text-base font-medium text-slate-700">
+                          {lang === 'ko' && m.name_ko ? m.name_ko : m.name}
+                        </p>
+                        <p className="text-sm text-slate-500">{lang === 'ko' && m.institution_ko ? m.institution_ko : m.institution}</p>
+                      </CardContent>
+                    </Card>
                   ))}
               </div>
             </div>
@@ -134,16 +134,18 @@ export default function AboutPage() {
           <h2 className="text-2xl font-bold text-slate-900">{t('about.pipeline')}</h2>
           <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {pipelineSteps.map((step) => (
-              <div key={step.step} className="text-center">
-                <div className="relative mx-auto h-16 w-16">
-                  <img src={step.icon} alt="" className="h-16 w-16 object-contain" />
-                  <span className={`absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full text-white text-xs font-bold ${step.color}`}>
-                    {step.step}
-                  </span>
-                </div>
-                <h3 className="mt-4 font-semibold text-slate-900">{step.title}</h3>
-                <p className="mt-2 text-base text-slate-600">{step.description}</p>
-              </div>
+              <Card key={step.step} className="py-0 text-center border-none shadow-none">
+                <CardContent className="p-6">
+                  <div className="relative mx-auto h-16 w-16">
+                    <img src={step.icon} alt="" className="h-16 w-16 object-contain" />
+                    <span className={`absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full text-white text-xs font-bold ${step.color}`}>
+                      {step.step}
+                    </span>
+                  </div>
+                  <h3 className="mt-4 font-semibold text-slate-900">{step.title}</h3>
+                  <p className="mt-2 text-base text-slate-600">{step.description}</p>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>

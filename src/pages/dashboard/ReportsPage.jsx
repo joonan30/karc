@@ -2,6 +2,12 @@ import { useState, useEffect, useRef } from 'react'
 import { supabase, logActivity } from '../../lib/supabase'
 import { useAuth } from '../../contexts/AuthContext'
 import { useLang } from '../../contexts/LangContext'
+import { Card, CardContent } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 
 const statusBadge = {
   published: 'bg-green-100 text-green-700',
@@ -167,12 +173,9 @@ export default function ReportsPage() {
             <p className="mt-1 text-sm text-slate-500">{t('reports.desc')}</p>
           </div>
           {canEdit && (
-            <button
-              onClick={openAddModal}
-              className="rounded-md bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-700 transition-colors"
-            >
+            <Button onClick={openAddModal}>
               {t('reports.addReport')}
-            </button>
+            </Button>
           )}
         </div>
 
@@ -181,113 +184,103 @@ export default function ReportsPage() {
         ) : (
           <div className="space-y-4">
             {reports.map((report) => (
-              <div
-                key={report.id}
-                className="rounded-lg border border-gray-200 bg-white p-6 hover:shadow-sm transition-shadow"
-              >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-slate-900">{report.title}</h3>
-                    <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-slate-500">
-                      <span>{report.author?.full_name || '-'}</span>
-                      <span>&middot;</span>
-                      <span>{new Date(report.created_at).toLocaleDateString()}</span>
-                      <span>&middot;</span>
-                      <span>{typeLabel[report.type] || report.type}</span>
+              <Card key={report.id} className="py-0">
+                <CardContent className="p-6">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-slate-900">{report.title}</h3>
+                      <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-slate-500">
+                        <span>{report.author?.full_name || '-'}</span>
+                        <span>&middot;</span>
+                        <span>{new Date(report.created_at).toLocaleDateString()}</span>
+                        <span>&middot;</span>
+                        <span>{typeLabel[report.type] || report.type}</span>
+                      </div>
+                      {report.summary && (
+                        <p className="mt-2 text-sm text-slate-600">{report.summary}</p>
+                      )}
+                      <div className="mt-3 flex gap-2">
+                        {report.file_name && (
+                          <Button variant="link" size="sm" onClick={() => handleDownload(report)} className="h-auto p-0 text-primary-600">
+                            {t('reports.download')}: {report.file_name}
+                          </Button>
+                        )}
+                      </div>
                     </div>
-                    {report.summary && (
-                      <p className="mt-2 text-sm text-slate-600">{report.summary}</p>
-                    )}
-                    <div className="mt-3 flex gap-2">
-                      {report.file_name && (
-                        <button
-                          onClick={() => handleDownload(report)}
-                          className="text-sm text-primary-600 hover:text-primary-700 font-medium"
-                        >
-                          {t('reports.download')}: {report.file_name}
-                        </button>
+                    <div className="flex items-center gap-2 ml-4">
+                      <Badge variant="secondary" className={statusBadge[report.status] || 'bg-gray-100 text-gray-700'}>
+                        {statusLabel[report.status] || report.status}
+                      </Badge>
+                      {canEdit && (
+                        <div className="flex gap-1">
+                          <Button variant="ghost" size="sm" onClick={() => openEditModal(report)} className="text-primary-600">
+                            {t('reports.edit')}
+                          </Button>
+                          {role === 'admin' && (
+                            <Button variant="ghost" size="sm" onClick={() => handleDelete(report)} className="text-red-600">
+                              {t('reports.delete')}
+                            </Button>
+                          )}
+                        </div>
                       )}
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 ml-4">
-                    <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${statusBadge[report.status] || 'bg-gray-100 text-gray-700'}`}>
-                      {statusLabel[report.status] || report.status}
-                    </span>
-                    {canEdit && (
-                      <div className="flex gap-1">
-                        <button onClick={() => openEditModal(report)}
-                          className="text-xs text-primary-600 hover:text-primary-700 font-medium">
-                          {t('reports.edit')}
-                        </button>
-                        {role === 'admin' && (
-                          <button onClick={() => handleDelete(report)}
-                            className="text-xs text-red-600 hover:text-red-700 font-medium">
-                            {t('reports.delete')}
-                          </button>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
         )}
 
-        {/* Add/Edit Modal */}
-        {showModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-            <div className="w-full max-w-lg rounded-lg bg-white p-6 shadow-xl max-h-[90vh] overflow-y-auto">
-              <h3 className="text-lg font-semibold text-slate-900 mb-4">
+        {/* Add/Edit Dialog */}
+        <Dialog open={showModal} onOpenChange={setShowModal}>
+          <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>
                 {editingReport ? t('reports.edit') : t('reports.addReport')}
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-slate-700">{t('reports.reportTitle')} *</label>
-                  <input type="text" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none" />
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label>{t('reports.reportTitle')} *</Label>
+                <Input type="text" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>{t('reports.type')}</Label>
+                  <select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none">
+                    {typeOptions.map((o) => <option key={o} value={o}>{typeLabel[o] || o}</option>)}
+                  </select>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700">{t('reports.type')}</label>
-                    <select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })}
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none">
-                      {typeOptions.map((o) => <option key={o} value={o}>{typeLabel[o] || o}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700">{t('reports.status')}</label>
-                    <select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })}
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none">
-                      {statusOptions.map((o) => <option key={o} value={o}>{statusLabel[o] || o}</option>)}
-                    </select>
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700">{t('reports.summary')}</label>
-                  <textarea value={form.summary} onChange={(e) => setForm({ ...form, summary: e.target.value })} rows={3}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700">{t('reports.file')}</label>
-                  <input ref={fileRef} type="file" onChange={(e) => setFile(e.target.files?.[0] || null)}
-                    className="mt-1 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100" />
+                <div className="space-y-2">
+                  <Label>{t('reports.status')}</Label>
+                  <select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none">
+                    {statusOptions.map((o) => <option key={o} value={o}>{statusLabel[o] || o}</option>)}
+                  </select>
                 </div>
               </div>
-              <div className="mt-6 flex justify-end gap-3">
-                <button onClick={() => setShowModal(false)}
-                  className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-gray-50">
-                  {t('reports.cancel')}
-                </button>
-                <button onClick={handleSave}
-                  disabled={!form.title || saving}
-                  className="rounded-md bg-primary-600 px-4 py-2 text-sm font-semibold text-white hover:bg-primary-700 disabled:opacity-50">
-                  {saving ? t('profile.saving') : t('reports.save')}
-                </button>
+              <div className="space-y-2">
+                <Label>{t('reports.summary')}</Label>
+                <textarea value={form.summary} onChange={(e) => setForm({ ...form, summary: e.target.value })} rows={3}
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none" />
+              </div>
+              <div className="space-y-2">
+                <Label>{t('reports.file')}</Label>
+                <input ref={fileRef} type="file" onChange={(e) => setFile(e.target.files?.[0] || null)}
+                  className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100" />
               </div>
             </div>
-          </div>
-        )}
+            <div className="mt-4 flex justify-end gap-3">
+              <Button variant="outline" onClick={() => setShowModal(false)}>
+                {t('reports.cancel')}
+              </Button>
+              <Button onClick={handleSave} disabled={!form.title || saving}>
+                {saving ? t('profile.saving') : t('reports.save')}
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   )

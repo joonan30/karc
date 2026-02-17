@@ -1,5 +1,7 @@
 import { useLang } from '../../contexts/LangContext'
-import { Link } from 'react-router-dom'
+import { Card, CardContent } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
 import iconKoreaDna from '../../assets/icons/icon-korea-dna.png'
 
 const datasets = [
@@ -38,11 +40,6 @@ const datasets = [
   },
 ]
 
-const statusStyle = {
-  Completed: 'bg-green-100 text-green-700',
-  'In progress': 'bg-yellow-100 text-yellow-700',
-}
-
 export default function DataPage() {
   const { t, lang } = useLang()
 
@@ -66,13 +63,15 @@ export default function DataPage() {
         <div className="mx-auto max-w-6xl px-4">
           <div className="grid grid-cols-3 gap-6">
             {datasets.map((ds) => (
-              <div key={ds.name} className="rounded-lg bg-primary-50 p-6 text-center">
-                <p className="text-sm font-semibold text-primary-600 uppercase tracking-wider">{ds.name}</p>
-                <p className="mt-2 text-3xl font-bold text-primary-700">{ds.participants}</p>
-                <p className="mt-1 text-base text-slate-600">
-                  {lang === 'ko' ? '참여자' : 'Participants'}
-                </p>
-              </div>
+              <Card key={ds.name} className="bg-primary-50 border-none py-0">
+                <CardContent className="p-6 text-center">
+                  <p className="text-sm font-semibold text-primary-600 uppercase tracking-wider">{ds.name}</p>
+                  <p className="mt-2 text-3xl font-bold text-primary-700">{ds.participants}</p>
+                  <p className="mt-1 text-base text-slate-600">
+                    {lang === 'ko' ? '참여자' : 'Participants'}
+                  </p>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>
@@ -82,56 +81,65 @@ export default function DataPage() {
       <section className="py-16 bg-gray-50">
         <div className="mx-auto max-w-6xl px-4">
           <h2 className="text-2xl font-bold text-slate-900">{t('data.datasets')}</h2>
-          <div className="mt-6 overflow-x-auto">
-            <table className="w-full border-collapse">
-              <thead>
-                <tr className="border-b-2 border-gray-300 text-left">
-                  <th className="py-3 pr-4 text-sm font-semibold text-slate-700 uppercase tracking-wider">
-                    {lang === 'ko' ? '데이터셋' : 'Dataset'}
-                  </th>
-                  <th className="py-3 px-4 text-sm font-semibold text-slate-700 uppercase tracking-wider">
-                    {lang === 'ko' ? '플랫폼' : 'Platform'}
-                  </th>
-                  <th className="py-3 px-4 text-sm font-semibold text-slate-700 uppercase tracking-wider text-right">
-                    {lang === 'ko' ? '깊이' : 'Depth'}
-                  </th>
-                  <th className="py-3 px-4 text-sm font-semibold text-slate-700 uppercase tracking-wider text-right">
-                    {lang === 'ko' ? '가족' : 'Families'}
-                  </th>
-                  <th className="py-3 px-4 text-sm font-semibold text-slate-700 uppercase tracking-wider text-right">
-                    {lang === 'ko' ? '참여자' : 'Participants'}
-                  </th>
-                  <th className="py-3 px-4 text-sm font-semibold text-slate-700 uppercase tracking-wider">
-                    {lang === 'ko' ? '파이프라인' : 'Pipeline'}
-                  </th>
-                  <th className="py-3 pl-4 text-sm font-semibold text-slate-700 uppercase tracking-wider">
-                    {lang === 'ko' ? '상태' : 'Status'}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {datasets.map((ds) => (
-                  <tr key={ds.name} className="border-b border-gray-200 hover:bg-white transition-colors">
-                    <td className="py-4 pr-4">
-                      <p className="font-semibold text-slate-900">{ds.name}</p>
-                      <p className="text-sm text-slate-500">
-                        {lang === 'ko' ? ds.fullName_ko : ds.fullName_en}
-                      </p>
-                    </td>
-                    <td className="py-4 px-4 text-base text-slate-700">{ds.platform}</td>
-                    <td className="py-4 px-4 text-base text-slate-700 text-right font-medium">{ds.depth}</td>
-                    <td className="py-4 px-4 text-base text-slate-700 text-right font-medium">{ds.families}</td>
-                    <td className="py-4 px-4 text-base text-slate-700 text-right font-medium">{ds.participants}</td>
-                    <td className="py-4 px-4 text-base text-slate-700">{ds.pipeline}</td>
-                    <td className="py-4 pl-4">
-                      <span className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ${statusStyle[ds.status]}`}>
-                        {ds.status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="mt-6">
+            <Card className="py-0 gap-0">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="py-3">
+                      {lang === 'ko' ? '데이터셋' : 'Dataset'}
+                    </TableHead>
+                    <TableHead className="py-3">
+                      {lang === 'ko' ? '플랫폼' : 'Platform'}
+                    </TableHead>
+                    <TableHead className="py-3 text-right">
+                      {lang === 'ko' ? '깊이' : 'Depth'}
+                    </TableHead>
+                    <TableHead className="py-3 text-right">
+                      {lang === 'ko' ? '가족' : 'Families'}
+                    </TableHead>
+                    <TableHead className="py-3 text-right">
+                      {lang === 'ko' ? '참여자' : 'Participants'}
+                    </TableHead>
+                    <TableHead className="py-3">
+                      {lang === 'ko' ? '파이프라인' : 'Pipeline'}
+                    </TableHead>
+                    <TableHead className="py-3">
+                      {lang === 'ko' ? '상태' : 'Status'}
+                    </TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {datasets.map((ds) => (
+                    <TableRow key={ds.name}>
+                      <TableCell className="py-4">
+                        <p className="font-semibold text-slate-900">{ds.name}</p>
+                        <p className="text-sm text-slate-500">
+                          {lang === 'ko' ? ds.fullName_ko : ds.fullName_en}
+                        </p>
+                      </TableCell>
+                      <TableCell className="py-4 text-slate-700">{ds.platform}</TableCell>
+                      <TableCell className="py-4 text-slate-700 text-right font-medium">{ds.depth}</TableCell>
+                      <TableCell className="py-4 text-slate-700 text-right font-medium">{ds.families}</TableCell>
+                      <TableCell className="py-4 text-slate-700 text-right font-medium">{ds.participants}</TableCell>
+                      <TableCell className="py-4 text-slate-700">{ds.pipeline}</TableCell>
+                      <TableCell className="py-4">
+                        <Badge
+                          variant="secondary"
+                          className={
+                            ds.status === 'Completed'
+                              ? 'bg-green-100 text-green-700'
+                              : 'bg-yellow-100 text-yellow-700'
+                          }
+                        >
+                          {ds.status}
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Card>
           </div>
         </div>
       </section>
