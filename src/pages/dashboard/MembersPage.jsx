@@ -28,11 +28,21 @@ export default function MembersPage() {
   }, [])
 
   async function fetchMembers() {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('profiles')
       .select('id, full_name, email, role, approved, created_at, institution')
       .order('created_at', { ascending: false })
-    setMembers(data || [])
+
+    if (error) {
+      // email column might not exist — retry without it
+      const { data: fallback } = await supabase
+        .from('profiles')
+        .select('id, full_name, role, approved, created_at, institution')
+        .order('created_at', { ascending: false })
+      setMembers(fallback || [])
+    } else {
+      setMembers(data || [])
+    }
     setLoading(false)
   }
 
