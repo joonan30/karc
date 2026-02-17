@@ -55,19 +55,6 @@ export default function MembersPage() {
       })
       .eq('id', member.id)
     await logActivity('member_approved', member.full_name || member.email)
-
-    // Send welcome email via Edge Function
-    try {
-      await supabase.functions.invoke('send-welcome-email', {
-        body: {
-          email: member.email,
-          name: member.full_name || '',
-        },
-      })
-    } catch {
-      // Edge Function not deployed yet — approval still works
-    }
-
     fetchMembers()
   }
 
