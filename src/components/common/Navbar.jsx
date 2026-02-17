@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { useLang } from '../../contexts/LangContext'
 import { useState } from 'react'
-import logo from '../../assets/k-arc-logo.png'
+import logo from '../../assets/icons/logo.png'
 
 export default function Navbar() {
   const { isAuthenticated, logout, role } = useAuth()

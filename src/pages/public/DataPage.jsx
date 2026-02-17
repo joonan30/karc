@@ -1,5 +1,6 @@
 import { useLang } from '../../contexts/LangContext'
 import { Link } from 'react-router-dom'
+import iconKoreaDna from '../../assets/icons/icon-korea-dna.png'
 
 const datasets = [
   {
@@ -49,11 +50,14 @@ export default function DataPage() {
     <div>
       {/* Header */}
       <section className="bg-gradient-to-b from-primary-50 to-white py-16">
-        <div className="mx-auto max-w-6xl px-4">
-          <h1 className="text-4xl font-bold text-slate-900">{t('data.title')}</h1>
-          <p className="mt-4 max-w-3xl text-xl text-slate-600 leading-relaxed">
-            {t('data.intro')}
-          </p>
+        <div className="mx-auto max-w-6xl px-4 flex items-start gap-6">
+          <img src={iconKoreaDna} alt="" className="hidden sm:block h-20 w-20 object-contain flex-shrink-0 mt-1" />
+          <div>
+            <h1 className="text-4xl font-bold text-slate-900">{t('data.title')}</h1>
+            <p className="mt-4 max-w-3xl text-xl text-slate-600 leading-relaxed">
+              {t('data.intro')}
+            </p>
+          </div>
         </div>
       </section>
 

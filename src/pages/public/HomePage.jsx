@@ -1,6 +1,13 @@
 import Hero from '../../components/public/Hero'
 import ResearchCard from '../../components/public/ResearchCard'
 import { useLang } from '../../contexts/LangContext'
+import iconGenomics from '../../assets/icons/icon-genomics.png'
+import iconClinical from '../../assets/icons/icon-clinical.png'
+import iconFunctional from '../../assets/icons/icon-functional.png'
+import iconCollaboration from '../../assets/icons/icon-collaboration.png'
+import iconFamily from '../../assets/icons/icon-family.png'
+import iconDna from '../../assets/icons/icon-dna.png'
+import iconDatabase from '../../assets/icons/icon-database.png'
 
 const stats = [
   { key: 'families', value: '1,328' },
@@ -9,14 +16,21 @@ const stats = [
   { key: 'lrwgs', value: '123' },
 ]
 
+const statIcons = {
+  families: iconFamily,
+  participants: iconCollaboration,
+  wgs: iconDna,
+  lrwgs: iconDatabase,
+}
+
 export default function HomePage() {
   const { t, lang } = useLang()
 
   const researchAreas = [
-    { icon: '\u{1F9EC}', title: t('home.genomics.title'), description: t('home.genomics.desc') },
-    { icon: '\u{1FA7A}', title: t('home.clinical.title'), description: t('home.clinical.desc') },
-    { icon: '\u{1F52C}', title: t('home.functional.title'), description: t('home.functional.desc') },
-    { icon: '\u{1F310}', title: t('home.collaboration.title'), description: t('home.collaboration.desc') },
+    { iconSrc: iconGenomics, title: t('home.genomics.title'), description: t('home.genomics.desc') },
+    { iconSrc: iconClinical, title: t('home.clinical.title'), description: t('home.clinical.desc') },
+    { iconSrc: iconFunctional, title: t('home.functional.title'), description: t('home.functional.desc') },
+    { iconSrc: iconCollaboration, title: t('home.collaboration.title'), description: t('home.collaboration.desc') },
   ]
 
   const recentUpdates = lang === 'ko'
@@ -42,6 +56,7 @@ export default function HomePage() {
           <div className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
             {stats.map((s) => (
               <div key={s.key} className="rounded-lg bg-primary-50 p-6 text-center">
+                <img src={statIcons[s.key]} alt="" className="mx-auto h-10 w-10 object-contain mb-2" />
                 <p className="text-3xl font-bold text-primary-700">{s.value}</p>
                 <p className="mt-1 text-base font-medium text-slate-600">{t(`home.stats.${s.key}`)}</p>
               </div>

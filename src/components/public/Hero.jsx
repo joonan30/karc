@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useLang } from '../../contexts/LangContext'
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
+import logo from '../../assets/icons/logo.png'
 
 const phrases = [
   'Connecting Science, Understanding Lives',
@@ -63,6 +64,14 @@ export default function Hero() {
   return (
     <section className="bg-gradient-to-b from-primary-50 to-white">
       <div className="mx-auto max-w-6xl px-4 py-20 text-center">
+        <motion.img
+          src={logo}
+          alt="K-ARC"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+          className="mx-auto h-32 w-32 object-contain mb-6"
+        />
         <div className="h-8 flex items-center justify-center">
           <p className="text-base font-semibold tracking-widest text-primary-600 uppercase">
             {typed}
