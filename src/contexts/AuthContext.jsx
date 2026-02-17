@@ -53,12 +53,12 @@ export function AuthProvider({ children }) {
     }
   }
 
-  async function signup(email, password, fullName) {
+  async function signup(email, password, fullName, institution) {
     if (!supabase) return { error: { message: 'Supabase not configured' } }
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { full_name: fullName } },
+      options: { data: { full_name: fullName, institution } },
     })
     return { data, error }
   }

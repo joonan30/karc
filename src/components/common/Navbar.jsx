@@ -63,7 +63,7 @@ export default function Navbar() {
                 {lang === 'en' ? '한국어' : 'EN'}
               </button>
 
-              {isAuthenticated ? (
+              {isAuthenticated && (
                 <>
                   {!isDashboard && (
                     <Link
@@ -92,13 +92,6 @@ export default function Navbar() {
                     {t('nav.logout')}
                   </button>
                 </>
-              ) : (
-                <Link
-                  to="/login"
-                  className="rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 transition-colors"
-                >
-                  {t('nav.login')}
-                </Link>
               )}
             </div>
           </div>
@@ -141,21 +134,13 @@ export default function Navbar() {
             >
               {lang === 'en' ? '한국어로 보기' : 'Switch to English'}
             </button>
-            {isAuthenticated ? (
+            {isAuthenticated && (
               <button
                 onClick={() => { logout(); setMobileOpen(false) }}
                 className="block w-full text-left px-3 py-2 text-sm font-medium text-slate-500"
               >
                 {t('nav.logout')}
               </button>
-            ) : (
-              <Link
-                to="/login"
-                onClick={() => setMobileOpen(false)}
-                className="block px-3 py-2 text-sm font-medium text-primary-600"
-              >
-                {t('nav.login')}
-              </Link>
             )}
           </div>
         )}

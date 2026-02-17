@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { useLang } from '../../contexts/LangContext'
 
 export default function Footer() {
-  const { t } = useLang()
+  const { t, lang } = useLang()
 
   return (
     <footer className="border-t border-gray-200 bg-gray-50">
@@ -61,10 +61,16 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 border-t border-gray-200 pt-8 text-center">
+        <div className="mt-8 border-t border-gray-200 pt-8 flex items-center justify-between">
           <p className="text-sm text-slate-400">
             &copy; {new Date().getFullYear()} K-ARC. All rights reserved.
           </p>
+          <Link
+            to="/login"
+            className="text-xs text-slate-400 hover:text-slate-500 transition-colors"
+          >
+            {lang === 'ko' ? '연구자 포털' : 'Researcher Portal'}
+          </Link>
         </div>
       </div>
     </footer>
