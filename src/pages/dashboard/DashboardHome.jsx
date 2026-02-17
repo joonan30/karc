@@ -35,6 +35,9 @@ const actionLabels = {
   report_added: { en: 'Report added', ko: '리포트 추가' },
   report_updated: { en: 'Report updated', ko: '리포트 수정' },
   profile_updated: { en: 'Profile updated', ko: '프로필 수정' },
+  member_approved: { en: 'Member approved', ko: '회원 승인' },
+  member_rejected: { en: 'Member rejected', ko: '회원 거절' },
+  member_revoked: { en: 'Approval revoked', ko: '승인 취소' },
 }
 
 export default function DashboardHome() {
