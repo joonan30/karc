@@ -119,13 +119,13 @@ export default function ResearchPage() {
               ? [
                   { title: '자폐의 유전적 다양성', desc: '자폐는 하나의 유전자가 아닌 수백 개의 유전적 요인이 복합적으로 작용합니다. K-ARC는 한국인 가족 데이터를 통해 이러한 유전적 다양성의 전체 그림을 그려나가고 있습니다.' },
                   { title: '가족 맥락의 이해', desc: '같은 변이라도 가족 배경에 따라 다르게 나타날 수 있습니다. 가족 단위 분석을 통해 각 개인의 고유한 유전적 특성이 어떻게 형성되는지 연구합니다.' },
-                  { title: '비암호화 영역의 역할', desc: '유전체의 98% 이상을 차지하는 비암호화 영역이 유전자 조절에 어떤 역할을 하는지, 그것이 자폐의 생물학적 기전과 어떻게 연결되는지 탐구합니다.' },
+                  { title: '한국인 자폐 유전자 발굴', desc: '한국인 자폐인의 유전체를 분석하여 자폐와 관련된 유전자를 찾고, 그 기능을 이해함으로써 자폐 특성의 생물학적 기반을 밝히는 것을 목표로 합니다.' },
                   { title: '성별에 따른 차이', desc: '자폐가 성별에 따라 유전적으로 다르게 나타나는 이유를 연구하여, 보다 정밀한 이해와 개인 맞춤형 접근의 기반을 마련합니다.' },
                 ]
               : [
                   { title: 'Genetic Diversity of Autism', desc: 'Autism involves hundreds of genetic factors working in combination, not a single gene. K-ARC is building a comprehensive picture of this genetic diversity through Korean family-based data.' },
                   { title: 'Family Context', desc: 'The same variant can manifest differently depending on family background. Through family-based analysis, we study how each individual\'s unique genetic profile is shaped.' },
-                  { title: 'Noncoding Genome', desc: 'We explore how the noncoding regions \u2014 over 98% of the genome \u2014 regulate genes and connect to the biological mechanisms underlying autism.' },
+                  { title: 'Gene Discovery in Korean Autism', desc: 'We analyze the genomes of Korean autistic individuals to identify autism-related genes and understand their functions, aiming to uncover the biological basis of autistic traits.' },
                   { title: 'Sex Differences', desc: 'We investigate why autism presents differently across sexes at the genetic level, laying the groundwork for more precise understanding and personalized approaches.' },
                 ]
             ).map((item) => (
@@ -183,12 +183,22 @@ export default function ResearchPage() {
             ))}
           </div>
 
-          {/* Results count */}
-          <p className="mt-4 text-sm text-slate-500">
-            {lang === 'ko'
-              ? `${filtered.length}편의 논문`
-              : `${filtered.length} publication${filtered.length !== 1 ? 's' : ''}`}
-          </p>
+          {/* Results count + hint */}
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
+            <p className="text-sm text-slate-500">
+              {lang === 'ko'
+                ? `${filtered.length}편의 논문`
+                : `${filtered.length} publication${filtered.length !== 1 ? 's' : ''}`}
+            </p>
+            <p className="text-sm text-slate-400 flex items-center gap-1">
+              <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clipRule="evenodd" />
+              </svg>
+              {lang === 'ko'
+                ? '논문을 클릭하면 쉬운 해설을 볼 수 있습니다'
+                : 'Click a publication to read a plain-language summary'}
+            </p>
+          </div>
 
           {filtered.length === 0 ? (
             <div className="mt-8 rounded-lg border border-dashed border-gray-300 bg-white p-8 text-center">
@@ -226,7 +236,15 @@ export default function ResearchPage() {
                               <p className="mt-1 text-base">
                                 <span className="italic text-slate-500">{pub.journal}</span>
                                 {pub.doi && (
-                                  <span className="ml-2 text-primary-600 text-sm">DOI: {pub.doi}</span>
+                                  <a
+                                    href={`https://doi.org/${pub.doi}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={(e) => e.stopPropagation()}
+                                    className="ml-2 text-primary-600 text-sm hover:underline"
+                                  >
+                                    DOI: {pub.doi}
+                                  </a>
                                 )}
                               </p>
                             </div>
@@ -247,6 +265,32 @@ export default function ResearchPage() {
                             <p className="text-base text-slate-700 leading-relaxed">
                               {lang === 'ko' ? pub.summary_ko : pub.summary_en}
                             </p>
+                            <div className="mt-4 flex flex-wrap gap-3">
+                              <a
+                                href={`https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(pub.title)}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 text-sm font-medium text-primary-700 hover:text-primary-800 hover:underline"
+                              >
+                                <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                  <path fillRule="evenodd" d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5zm7.25-.75a.75.75 0 01.75-.75h3.5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0V6.31l-5.47 5.47a.75.75 0 01-1.06-1.06l5.47-5.47H12.25a.75.75 0 01-.75-.75z" clipRule="evenodd" />
+                                </svg>
+                                {lang === 'ko' ? 'PubMed에서 보기' : 'View on PubMed'}
+                              </a>
+                              {pub.doi && (
+                                <a
+                                  href={`https://doi.org/${pub.doi}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1.5 text-sm font-medium text-primary-700 hover:text-primary-800 hover:underline"
+                                >
+                                  <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fillRule="evenodd" d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5zm7.25-.75a.75.75 0 01.75-.75h3.5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0V6.31l-5.47 5.47a.75.75 0 01-1.06-1.06l5.47-5.47H12.25a.75.75 0 01-.75-.75z" clipRule="evenodd" />
+                                  </svg>
+                                  {lang === 'ko' ? '전문 보기 (DOI)' : 'Full Text (DOI)'}
+                                </a>
+                              )}
+                            </div>
                           </div>
                         )}
                       </Card>

@@ -1,6 +1,7 @@
 import { useLang } from '../../contexts/LangContext'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
 import iconKoreaDna from '../../assets/icons/icon-korea-dna.png'
 
@@ -155,6 +156,34 @@ export default function DataPage() {
                 : 'Information on data sharing and access policies will be available soon.'}
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* K-GeneBook */}
+      <section className="py-16 bg-gray-50">
+        <div className="mx-auto max-w-6xl px-4">
+          <h2 className="text-2xl font-bold text-slate-900">
+            {lang === 'ko' ? '데이터 탐색 도구' : 'Data Exploration Tool'}
+          </h2>
+          <Card className="mt-6 py-0">
+            <CardContent className="p-8">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+                <div>
+                  <h3 className="text-xl font-bold text-slate-900">K-GeneBook</h3>
+                  <p className="mt-2 text-base text-slate-600 leading-relaxed max-w-2xl">
+                    {lang === 'ko'
+                      ? 'K-ARC 컨소시엄에서 개발한 한국인 자폐 유전자 데이터베이스입니다. 한국인 자폐 코호트에서 발견된 유전자 변이 정보를 검색하고 탐색할 수 있습니다.'
+                      : 'A gene database developed by the K-ARC consortium. Explore and search genetic variant information discovered in the Korean autism cohort.'}
+                  </p>
+                </div>
+                <Button asChild size="lg" className="shrink-0">
+                  <a href="https://joonan-lab.github.io/k_genebook/" target="_blank" rel="noopener noreferrer">
+                    {lang === 'ko' ? 'K-GeneBook 열기' : 'Open K-GeneBook'}
+                  </a>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </section>
     </div>

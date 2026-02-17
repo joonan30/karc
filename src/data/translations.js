@@ -133,8 +133,8 @@ const translations = {
   // Research
   'research.title': { en: 'Research', ko: '연구' },
   'research.intro': {
-    en: 'K-ARC investigates the diverse characteristics and biological foundations of autism through family-based genomic studies. Our research aims to understand the complex genetic landscape — from noncoding regulatory elements to sex-specific patterns — that shapes the wide spectrum of autistic traits.',
-    ko: 'K-ARC는 가족 기반 유전체 연구를 통해 자폐의 다양한 특성과 생물학적 기반을 탐구합니다. 비암호화 조절 영역에서 성별 특이적 패턴에 이르기까지, 자폐의 폭넓은 스펙트럼을 형성하는 복잡한 유전적 지형을 이해하는 것을 목표로 합니다.',
+    en: 'K-ARC investigates the diverse characteristics and biological foundations of autism through family-based genomic studies. Our research aims to discover autism-related genes in the Korean population, understand their functions, and uncover the genetic landscape that shapes the wide spectrum of autistic traits.',
+    ko: 'K-ARC는 가족 기반 유전체 연구를 통해 자폐의 다양한 특성과 생물학적 기반을 탐구합니다. 한국인 자폐 관련 유전자를 발굴하고 그 기능을 이해하여, 자폐의 폭넓은 스펙트럼을 형성하는 유전적 지형을 밝히는 것을 목표로 합니다.',
   },
   'research.focus': { en: 'Research Focus', ko: '연구 주제' },
   'research.publications': { en: 'Publications', ko: '논문' },

@@ -28,8 +28,12 @@ const members = [
   { name: 'Woong Sun', name_ko: '선웅', institution: 'Korea Univ.', institution_ko: '고려대학교', area: 'Molecular' },
   { name: 'Chan-Young Shin', name_ko: '신찬영', institution: 'Konkuk Univ.', institution_ko: '건국대학교', area: 'Molecular' },
   { name: 'Daekee Lee', name_ko: '이대기', institution: 'Ewha Womans Univ.', institution_ko: '이화여자대학교', area: 'Molecular' },
+  { name: 'Seungbok Lee', name_ko: '이승복', institution: 'Seoul National Univ.', institution_ko: '서울대학교', area: 'Molecular' },
+  { name: 'Suk-Ho Lee', name_ko: '이석호', institution: 'Seoul National Univ.', institution_ko: '서울대학교', area: 'Molecular' },
   { name: 'Yong-Seok Lee', name_ko: '이용석', institution: 'Seoul National Univ.', institution_ko: '서울대학교', area: 'Molecular' },
   { name: 'Ji-Yeon Lee', name_ko: '이지연', institution: 'Seoul National Univ.', institution_ko: '서울대학교', area: 'Molecular' },
+  { name: 'Sung-Oh Huh', name_ko: '허성오', institution: 'Hallym Univ.', institution_ko: '한림대학교', area: 'Molecular' },
+  { name: 'Sejin Jeon', name_ko: '전세진', institution: 'Hallym Univ.', institution_ko: '한림대학교', area: 'Molecular' },
   // International
   { name: 'Donna Werling', institution: 'UW Madison', area: 'International' },
   { name: 'Stephan Sanders', institution: 'Univ. of Oxford', area: 'International' },
