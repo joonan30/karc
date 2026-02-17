@@ -2,28 +2,27 @@ import { useLang } from '../../contexts/LangContext'
 import iconCollaboration from '../../assets/icons/icon-collaboration.png'
 
 const members = [
-  // Omics
-  { name: 'Min-Sik Kim', name_ko: '김민식', institution: 'DGIST', area: 'Omics' },
-  { name: 'Jun Kim', name_ko: '김준', institution: 'CNU', area: 'Omics' },
-  { name: 'Hong-Hee Won', name_ko: '원홍희', institution: 'Sungkyunkwan Univ.', area: 'Omics' },
-  { name: 'Jeong-Ho Lee', name_ko: '이정호', institution: 'KAIST', area: 'Omics' },
-  { name: 'Jun-Hak Lee', name_ko: '이준학', institution: 'KISTI', area: 'Omics' },
-  { name: 'Jung-Kyoon Choi', name_ko: '최정균', institution: 'KAIST', area: 'Omics' },
-  // AI
-  { name: 'Sang-Hyuk Lee', name_ko: '이상혁', institution: 'Ewha Womans Univ.', area: 'AI' },
-  { name: 'Minji Jeon', name_ko: '전민지', institution: 'Korea Univ.', area: 'AI' },
-  // Clinical
+  // Omics & AI
+  { name: 'Min-Sik Kim', name_ko: '김민식', institution: 'DGIST', area: 'OmicsAI' },
+  { name: 'Jun Kim', name_ko: '김준', institution: 'CNU', area: 'OmicsAI' },
+  { name: 'Hong-Hee Won', name_ko: '원홍희', institution: 'Sungkyunkwan Univ.', area: 'OmicsAI' },
+  { name: 'Jeong-Ho Lee', name_ko: '이정호', institution: 'KAIST', area: 'OmicsAI' },
+  { name: 'Jun-Hak Lee', name_ko: '이준학', institution: 'KISTI', area: 'OmicsAI' },
+  { name: 'Jung-Kyoon Choi', name_ko: '최정균', institution: 'KAIST', area: 'OmicsAI' },
+  { name: 'Sang-Hyuk Lee', name_ko: '이상혁', institution: 'Ewha Womans Univ.', area: 'OmicsAI' },
+  { name: 'Minji Jeon', name_ko: '전민지', institution: 'Korea Univ.', area: 'OmicsAI' },
+  // Clinical & Behavioural
   { name: 'So Hyun Kim', name_ko: '김소현', institution: 'Korea Univ.', area: 'Clinical' },
   { name: 'Ilbin Kim', name_ko: '김일빈', institution: 'CHA Hospital', area: 'Clinical' },
   { name: 'Miae Oh', name_ko: '오미애', institution: 'Kyunghee Univ.', area: 'Clinical' },
-  // Functional
-  { name: 'Eunha Kim', name_ko: '김은하', institution: 'Korea Univ.', area: 'Functional' },
-  { name: 'Jaesang Kim', name_ko: '김재상', institution: 'Ewha Womans Univ.', area: 'Functional' },
-  { name: 'Woong Sun', name_ko: '선웅', institution: 'Korea Univ.', area: 'Functional' },
-  { name: 'Chan-Young Shin', name_ko: '신찬영', institution: 'Konkuk Univ.', area: 'Functional' },
-  { name: 'Daekee Lee', name_ko: '이대기', institution: 'Ewha Womans Univ.', area: 'Functional' },
-  { name: 'Yong-Seok Lee', name_ko: '이용석', institution: 'Seoul National Univ.', area: 'Functional' },
-  { name: 'Ji-Yeon Lee', name_ko: '이지연', institution: 'Seoul National Univ.', area: 'Functional' },
+  // Molecular & Translational
+  { name: 'Eunha Kim', name_ko: '김은하', institution: 'Korea Univ.', area: 'Molecular' },
+  { name: 'Jaesang Kim', name_ko: '김재상', institution: 'Ewha Womans Univ.', area: 'Molecular' },
+  { name: 'Woong Sun', name_ko: '선웅', institution: 'Korea Univ.', area: 'Molecular' },
+  { name: 'Chan-Young Shin', name_ko: '신찬영', institution: 'Konkuk Univ.', area: 'Molecular' },
+  { name: 'Daekee Lee', name_ko: '이대기', institution: 'Ewha Womans Univ.', area: 'Molecular' },
+  { name: 'Yong-Seok Lee', name_ko: '이용석', institution: 'Seoul National Univ.', area: 'Molecular' },
+  { name: 'Ji-Yeon Lee', name_ko: '이지연', institution: 'Seoul National Univ.', area: 'Molecular' },
   // International
   { name: 'Donna Werling', institution: 'UW Madison', area: 'International' },
   { name: 'Stephan Sanders', institution: 'Oxford', area: 'International' },
@@ -33,10 +32,9 @@ const members = [
 ]
 
 const areaLabels = {
-  Omics: { en: 'Omics', ko: '오믹스' },
-  AI: { en: 'AI', ko: 'AI' },
-  Clinical: { en: 'Clinical', ko: '임상' },
-  Functional: { en: 'Functional Studies', ko: '기능연구' },
+  OmicsAI: { en: 'Omics & AI Working Group', ko: '오믹스 & AI 워킹그룹' },
+  Clinical: { en: 'Clinical & Behavioural Working Group', ko: '임상 & 행동 워킹그룹' },
+  Molecular: { en: 'Molecular & Translational Working Group', ko: '분자 & 중개연구 워킹그룹' },
   International: { en: 'International Collaborators', ko: '국제 협력' },
 }
 
@@ -50,7 +48,7 @@ export default function AboutPage() {
     { step: '04', title: t('about.pipeline.step4'), description: t('about.pipeline.step4.desc'), color: 'bg-purple-500' },
   ]
 
-  const areas = ['Omics', 'AI', 'Clinical', 'Functional', 'International']
+  const areas = ['OmicsAI', 'Clinical', 'Molecular', 'International']
 
   return (
     <div>

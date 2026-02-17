@@ -107,7 +107,7 @@ const translations = {
     ko: '기능 연구 및 유전체 데이터 구축을 이끌고 있습니다.',
   },
 
-  'about.institutions': { en: 'Participating Institutions', ko: '참여 기관' },
+  'about.institutions': { en: 'Working Groups', ko: '워킹그룹' },
   'about.pipeline': { en: 'Research Pipeline', ko: '연구 파이프라인' },
   'about.pipeline.step1': { en: 'Clinical Assessment', ko: '임상 평가' },
   'about.pipeline.step1.desc': {

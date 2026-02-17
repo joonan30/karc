@@ -8,6 +8,28 @@ import iconCollaboration from '../../assets/icons/icon-collaboration.png'
 import iconFamily from '../../assets/icons/icon-family.png'
 import iconDna from '../../assets/icons/icon-dna.png'
 import iconDatabase from '../../assets/icons/icon-database.png'
+import logoKoreaUniv from '../../assets/logos/korea-univ.png'
+import logoIbs from '../../assets/logos/ibs.png'
+import logoEwha from '../../assets/logos/ewha.png'
+import logoKonkuk from '../../assets/logos/konkuk.png'
+import logoKaist from '../../assets/logos/kaist.png'
+import logoSkku from '../../assets/logos/skku.png'
+
+const institutions = [
+  { name: 'SNUBH', name_ko: '분당서울대병원', logo: null },
+  { name: 'Korea Univ.', name_ko: '고려대학교', logo: logoKoreaUniv },
+  { name: 'SNU', name_ko: '서울대학교', logo: null },
+  { name: 'Kyung Hee Univ.', name_ko: '경희대학교', logo: null },
+  { name: 'IBS', name_ko: '기초과학연구원', logo: logoIbs },
+  { name: 'Ewha Womans Univ.', name_ko: '이화여자대학교', logo: logoEwha },
+  { name: 'KISTI', name_ko: 'KISTI', logo: null },
+  { name: 'CHA Univ.', name_ko: '차의과학대학교', logo: null },
+  { name: 'Konkuk Univ.', name_ko: '건국대학교', logo: logoKonkuk },
+  { name: 'KAIST', name_ko: 'KAIST', logo: logoKaist },
+  { name: 'DGIST', name_ko: 'DGIST', logo: null },
+  { name: 'SKKU', name_ko: '성균관대학교', logo: logoSkku },
+  { name: 'CNU', name_ko: '충남대학교', logo: null },
+]
 
 const stats = [
   { key: 'families', value: '1,328' },
@@ -90,6 +112,35 @@ export default function HomePage() {
                 <span className="text-base font-medium text-primary-600">{update.date}</span>
                 <h3 className="mt-1 text-xl font-semibold text-slate-900">{update.title}</h3>
                 <p className="mt-1 text-base text-slate-600">{update.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Participating Institutions */}
+      <section className="py-16 bg-white">
+        <div className="mx-auto max-w-6xl px-4">
+          <h2 className="text-center text-2xl font-bold text-slate-900">
+            {lang === 'ko' ? '참여 기관' : 'Participating Institutions'}
+          </h2>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-10 gap-y-8">
+            {institutions.map((inst) => (
+              <div key={inst.name} className="flex flex-col items-center gap-2 w-20">
+                {inst.logo ? (
+                  <img
+                    src={inst.logo}
+                    alt={lang === 'ko' ? inst.name_ko : inst.name}
+                    className="h-14 w-14 object-contain grayscale hover:grayscale-0 opacity-70 hover:opacity-100 transition-all"
+                  />
+                ) : (
+                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100">
+                    <span className="text-[10px] font-bold text-slate-400">{inst.name}</span>
+                  </div>
+                )}
+                <span className="text-[11px] text-slate-500 text-center leading-tight">
+                  {lang === 'ko' ? inst.name_ko : inst.name}
+                </span>
               </div>
             ))}
           </div>
