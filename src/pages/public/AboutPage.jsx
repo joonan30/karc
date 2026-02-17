@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { useLang } from '../../contexts/LangContext'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
+import { ChevronDown } from 'lucide-react'
 import iconCollaboration from '../../assets/icons/icon-collaboration.png'
 import iconAiBrain from '../../assets/icons/icon-ai-brain.png'
 import iconClinicalBrain from '../../assets/icons/icon-clinical-brain.png'
@@ -10,30 +12,37 @@ import iconTranslational from '../../assets/icons/icon-translational.png'
 
 const members = [
   // Omics & AI
-  { name: 'Min-Sik Kim', name_ko: '김민식', institution: 'DGIST', institution_ko: 'DGIST', area: 'OmicsAI' },
-  { name: 'Jun Kim', name_ko: '김준', institution: 'CNU', institution_ko: '충남대학교', area: 'OmicsAI' },
-  { name: 'Hong-Hee Won', name_ko: '원홍희', institution: 'Sungkyunkwan Univ.', institution_ko: '성균관대학교', area: 'OmicsAI' },
-  { name: 'Jeong-Ho Lee', name_ko: '이정호', institution: 'KAIST', institution_ko: 'KAIST', area: 'OmicsAI' },
-  { name: 'Jun-Hak Lee', name_ko: '이준학', institution: 'KISTI', institution_ko: 'KISTI', area: 'OmicsAI' },
-  { name: 'Jung-Kyoon Choi', name_ko: '최정균', institution: 'KAIST', institution_ko: 'KAIST', area: 'OmicsAI' },
-  { name: 'Sang-Hyuk Lee', name_ko: '이상혁', institution: 'Ewha Womans Univ.', institution_ko: '이화여자대학교', area: 'OmicsAI' },
-  { name: 'Minji Jeon', name_ko: '전민지', institution: 'Korea Univ.', institution_ko: '고려대학교', area: 'OmicsAI' },
+  { name: 'Prof. Min-Sik Kim', name_ko: '김민식 교수', institution: 'DGIST', institution_ko: 'DGIST', area: 'OmicsAI',
+    desc_ko: '단백체 멀티오믹스를 이용한 자폐 아동의 발달을 추적합니다', desc: 'Tracks the development of children with autism using proteomic multi-omics' },
+  { name: 'Prof. Jun Kim', name_ko: '김준 교수', institution: 'CNU', institution_ko: '충남대학교', area: 'OmicsAI',
+    desc_ko: '롱리드 시퀀싱을 이용해 복잡한 미해결 유전변이 연구를 합니다', desc: 'Studies complex unresolved genetic variants using long-read sequencing' },
+  { name: 'Prof. Hong-Hee Won', name_ko: '원홍희 교수', institution: 'Sungkyunkwan Univ.', institution_ko: '성균관대학교', area: 'OmicsAI',
+    desc_ko: '자폐 GWAS 연구를 수행합니다', desc: 'Conducts autism GWAS research' },
+  { name: 'Prof. Jeong-Ho Lee', name_ko: '이정호 교수', institution: 'KAIST', institution_ko: 'KAIST', area: 'OmicsAI' },
+  { name: 'Director Jun-Hak Lee', name_ko: '이준학 단장', institution: 'KISTI', institution_ko: 'KISTI', area: 'OmicsAI',
+    desc_ko: '슈퍼컴퓨팅으로 자폐 연구 데이터처리를 가속화 합니다', desc: 'Accelerates autism research data processing with supercomputing' },
+  { name: 'Prof. Jung-Kyoon Choi', name_ko: '최정균 교수', institution: 'KAIST', institution_ko: 'KAIST', area: 'OmicsAI' },
+  { name: 'Prof. Sang-Hyuk Lee', name_ko: '이상혁 교수', institution: 'Ewha Womans Univ.', institution_ko: '이화여자대학교', area: 'OmicsAI' },
+  { name: 'Prof. Minji Jeon', name_ko: '전민지 교수', institution: 'Korea Univ.', institution_ko: '고려대학교', area: 'OmicsAI' },
   // Clinical & Behavioural
-  { name: 'So Hyun Kim', name_ko: '김소현', institution: 'Korea Univ.', institution_ko: '고려대학교', area: 'Clinical' },
-  { name: 'Ilbin Kim', name_ko: '김일빈', institution: 'Gangnam CHA Hospital', institution_ko: '강남차병원', area: 'Clinical' },
-  { name: 'Miae Oh', name_ko: '오미애', institution: 'Kyunghee Univ.', institution_ko: '경희대학교', area: 'Clinical' },
+  { name: 'Prof. So Hyun Kim', name_ko: '김소현 교수', institution: 'Korea Univ.', institution_ko: '고려대학교', area: 'Clinical' },
+  { name: 'Prof. Ilbin Kim', name_ko: '김일빈 교수', institution: 'Gangnam CHA Hospital', institution_ko: '강남차병원', area: 'Clinical' },
+  { name: 'Prof. Miae Oh', name_ko: '오미애 교수', institution: 'Kyunghee Univ.', institution_ko: '경희대학교', area: 'Clinical' },
   // Molecular & Translational
-  { name: 'Eunha Kim', name_ko: '김은하', institution: 'Korea Univ.', institution_ko: '고려대학교', area: 'Molecular' },
-  { name: 'Jaesang Kim', name_ko: '김재상', institution: 'Ewha Womans Univ.', institution_ko: '이화여자대학교', area: 'Molecular' },
-  { name: 'Woong Sun', name_ko: '선웅', institution: 'Korea Univ.', institution_ko: '고려대학교', area: 'Molecular' },
-  { name: 'Chan-Young Shin', name_ko: '신찬영', institution: 'Konkuk Univ.', institution_ko: '건국대학교', area: 'Molecular' },
-  { name: 'Daekee Lee', name_ko: '이대기', institution: 'Ewha Womans Univ.', institution_ko: '이화여자대학교', area: 'Molecular' },
-  { name: 'Seungbok Lee', name_ko: '이승복', institution: 'Seoul National Univ.', institution_ko: '서울대학교', area: 'Molecular' },
-  { name: 'Suk-Ho Lee', name_ko: '이석호', institution: 'Seoul National Univ.', institution_ko: '서울대학교', area: 'Molecular' },
-  { name: 'Yong-Seok Lee', name_ko: '이용석', institution: 'Seoul National Univ.', institution_ko: '서울대학교', area: 'Molecular' },
-  { name: 'Ji-Yeon Lee', name_ko: '이지연', institution: 'Seoul National Univ.', institution_ko: '서울대학교', area: 'Molecular' },
-  { name: 'Sung-Oh Huh', name_ko: '허성오', institution: 'Hallym Univ.', institution_ko: '한림대학교', area: 'Molecular' },
-  { name: 'Sejin Jeon', name_ko: '전세진', institution: 'Hallym Univ.', institution_ko: '한림대학교', area: 'Molecular' },
+  { name: 'Prof. Eunha Kim', name_ko: '김은하 교수', institution: 'Korea Univ.', institution_ko: '고려대학교', area: 'Molecular',
+    desc_ko: '사이토카인과 장내미생물을 통한 자폐 기전을 연구합니다', desc: 'Studies autism mechanisms through cytokines and gut microbiome' },
+  { name: 'Prof. Jaesang Kim', name_ko: '김재상 교수', institution: 'Ewha Womans Univ.', institution_ko: '이화여자대학교', area: 'Molecular' },
+  { name: 'Prof. Woong Sun', name_ko: '선웅 교수', institution: 'Korea Univ.', institution_ko: '고려대학교', area: 'Molecular',
+    desc_ko: '뇌 오가노이드를 활용하여 신경발달을 연구합니다', desc: 'Studies neurodevelopment using brain organoids' },
+  { name: 'Prof. Chan-Young Shin', name_ko: '신찬영 교수', institution: 'Konkuk Univ.', institution_ko: '건국대학교', area: 'Molecular' },
+  { name: 'Prof. Daekee Lee', name_ko: '이대기 교수', institution: 'Ewha Womans Univ.', institution_ko: '이화여자대학교', area: 'Molecular' },
+  { name: 'Prof. Seungbok Lee', name_ko: '이승복 교수', institution: 'Seoul National Univ.', institution_ko: '서울대학교', area: 'Molecular' },
+  { name: 'Prof. Suk-Ho Lee', name_ko: '이석호 교수', institution: 'Seoul National Univ.', institution_ko: '서울대학교', area: 'Molecular' },
+  { name: 'Prof. Yong-Seok Lee', name_ko: '이용석 교수', institution: 'Seoul National Univ.', institution_ko: '서울대학교', area: 'Molecular',
+    desc_ko: '자폐 유전자의 시냅스 및 RAS 경로를 연구합니다', desc: 'Studies synapse and RAS pathways of autism genes' },
+  { name: 'Prof. Ji-Yeon Lee', name_ko: '이지연 교수', institution: 'Seoul National Univ.', institution_ko: '서울대학교', area: 'Molecular' },
+  { name: 'Prof. Sung-Oh Huh', name_ko: '허성오 교수', institution: 'Hallym Univ.', institution_ko: '한림대학교', area: 'Molecular' },
+  { name: 'Prof. Sejin Jeon', name_ko: '전세진 교수', institution: 'Hallym Univ.', institution_ko: '한림대학교', area: 'Molecular' },
   // International
   { name: 'Donna Werling', institution: 'UW Madison', area: 'International' },
   { name: 'Stephan Sanders', institution: 'Univ. of Oxford', area: 'International' },
@@ -52,6 +61,7 @@ const areaLabels = {
 
 export default function AboutPage() {
   const { t, lang } = useLang()
+  const [expandedMember, setExpandedMember] = useState(null)
 
   const pipelineSteps = [
     { step: '01', icon: iconClinicalCheckup, title: t('about.pipeline.step1'), description: t('about.pipeline.step1.desc'), color: 'bg-blue-500' },
@@ -116,16 +126,36 @@ export default function AboutPage() {
               <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {members
                   .filter((m) => m.area === area)
-                  .map((m) => (
-                    <Card key={m.name} className="py-0">
-                      <CardContent className="px-4 py-3">
-                        <p className="text-base font-medium text-slate-700">
-                          {lang === 'ko' && m.name_ko ? m.name_ko : m.name}
-                        </p>
-                        <p className="text-sm text-slate-500">{lang === 'ko' && m.institution_ko ? m.institution_ko : m.institution}</p>
-                      </CardContent>
-                    </Card>
-                  ))}
+                  .map((m) => {
+                    const hasDesc = lang === 'ko' ? m.desc_ko : m.desc
+                    const isExpanded = expandedMember === m.name
+                    return (
+                      <Card
+                        key={m.name}
+                        className={`py-0 transition-all ${hasDesc ? 'cursor-pointer hover:shadow-md' : ''}`}
+                        onClick={() => hasDesc && setExpandedMember(isExpanded ? null : m.name)}
+                      >
+                        <CardContent className="px-4 py-3">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <p className="text-base font-medium text-slate-700">
+                                {lang === 'ko' && m.name_ko ? m.name_ko : m.name}
+                              </p>
+                              <p className="text-sm text-slate-500">{lang === 'ko' && m.institution_ko ? m.institution_ko : m.institution}</p>
+                            </div>
+                            {hasDesc && (
+                              <ChevronDown className={`h-4 w-4 text-slate-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+                            )}
+                          </div>
+                          {isExpanded && hasDesc && (
+                            <p className="mt-2 pt-2 border-t border-slate-100 text-sm text-slate-600 leading-relaxed">
+                              {lang === 'ko' ? m.desc_ko : m.desc}
+                            </p>
+                          )}
+                        </CardContent>
+                      </Card>
+                    )
+                  })}
               </div>
             </div>
           ))}

@@ -1,5 +1,5 @@
 import { useLang } from '../../contexts/LangContext'
-import iconFamily from '../../assets/icons/icon-family.png'
+import iconSupport from '../../assets/icons/icon-support.png'
 
 const donationLinks = [
   {
@@ -54,7 +54,7 @@ export default function SupportPage() {
       {/* Header */}
       <section className="bg-gradient-to-b from-primary-50 to-white py-16">
         <div className="mx-auto max-w-6xl px-4 flex items-start gap-6">
-          <img src={iconFamily} alt="" className="hidden sm:block h-20 w-20 object-contain flex-shrink-0 mt-1" />
+          <img src={iconSupport} alt="" className="hidden sm:block h-20 w-20 object-contain flex-shrink-0 mt-1" />
           <div>
             <h1 className="text-4xl font-bold text-slate-900">{t('support.title')}</h1>
             <p className="mt-4 max-w-3xl text-xl text-slate-600 leading-relaxed">
