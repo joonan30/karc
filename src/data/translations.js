@@ -78,6 +78,7 @@ const translations = {
     en: 'The Korean Autism Research Consortium (K-ARC) is a multi-institutional collaborative research consortium established to understand the genetic basis of autism and contribute to precision medicine. K-ARC operates one of the largest East Asian autism genomic cohorts, with comprehensive phenotyping and whole-genome sequencing data.',
     ko: '한국 자폐 연구 컨소시엄(K-ARC)은 자폐의 유전적 기반을 이해하고, 정밀의료 실현에 기여하기 위해 설립된 다기관 공동연구 컨소시엄입니다. 동아시아 최대 규모의 자폐 유전체 코호트를 운영하며, 심층 임상 표현형과 전장유전체 시퀀싱 데이터를 보유하고 있습니다.',
   },
+  'about.journey': { en: 'Our Journey', ko: '우리의 여정' },
   'about.leadership': { en: 'Leadership', ko: '연구 리더십' },
   'about.director': { en: 'Director', ko: '연구 총괄' },
   'about.director.name': { en: 'Prof. Hee Jeong Yoo', ko: '유희정 교수' },
