@@ -7,6 +7,7 @@ import iconClinical from '../../assets/icons/icon-clinical.png'
 import iconFunctional from '../../assets/icons/icon-functional.png'
 import iconCollaboration from '../../assets/icons/icon-collaboration.png'
 import iconFamily from '../../assets/icons/icon-family.png'
+import iconParticipants from '../../assets/icons/icon-participants.png'
 import iconDna from '../../assets/icons/icon-dna.png'
 import iconDatabase from '../../assets/icons/icon-database.png'
 import logoSnu from '../../assets/logos/snu.png'
@@ -48,7 +49,7 @@ const stats = [
 
 const statIcons = {
   families: iconFamily,
-  participants: iconCollaboration,
+  participants: iconParticipants,
   wgs: iconDna,
   lrwgs: iconDatabase,
 }
