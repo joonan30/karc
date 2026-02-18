@@ -171,48 +171,58 @@ export default function AboutPage() {
               ? 'K-ARC는 자폐 유전체 연구의 다음 세대를 이끌어 갈 젊은 연구자들을 함께 키워가고 있습니다.'
               : 'K-ARC is nurturing the next generation of researchers who will lead the future of autism genomics.'}
           </p>
-          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {[
               {
                 name: 'Yujin Kim', name_ko: '김유진',
-                role_en: 'Postdoctoral Researcher', role_ko: '박사후연구원',
-                institution: 'University of Oxford',
-                desc_en: 'Ph.D. from Korea University. Continuing autism genomics research at Oxford.',
-                desc_ko: '고려대학교 박사. Oxford에서 자폐 유전체 연구를 이어가고 있습니다.',
+                institution: 'University of Oxford', institution_ko: 'University of Oxford',
+                desc_en: 'Postdoctoral researcher continuing autism genomics research at Oxford',
+                desc_ko: '고려대학교 박사. Oxford에서 자폐 유전체 연구를 이어가고 있습니다',
               },
               {
                 name: 'Soo-Whee Kim', name_ko: '김수휘',
-                role_en: 'Postdoctoral Researcher', role_ko: '박사후연구원',
-                institution: 'University of Oxford',
-                desc_en: 'Ph.D. from Korea University. Conducting research at Oxford.',
-                desc_ko: '고려대학교 박사. Oxford에서 연구를 수행하고 있습니다.',
+                institution: 'University of Oxford', institution_ko: 'University of Oxford',
+                desc_en: 'Postdoctoral researcher conducting genomics research at Oxford',
+                desc_ko: '고려대학교 박사. Oxford에서 유전체 연구를 수행하고 있습니다',
               },
               {
                 name: 'Hyeji Lee', name_ko: '이혜지',
-                role_en: 'Graduate Student (NRF Fellow)', role_ko: '대학원생 (한국연구재단 펠로)',
-                institution: 'Korea University',
-                institution_ko: '고려대학교',
-                desc_en: 'NRF Fellowship recipient. Researching autism genetics at Korea University.',
-                desc_ko: '한국연구재단 펠로십 수혜자. 고려대학교에서 자폐 유전학을 연구하고 있습니다.',
+                institution: 'Korea University', institution_ko: '고려대학교',
+                desc_en: 'Graduate student researching autism genetics at Korea University',
+                desc_ko: '고려대학교에서 자폐 유전학을 연구하고 있습니다',
               },
-            ].map((fellow) => (
-              <Card key={fellow.name} className="py-0">
-                <CardContent className="p-5">
-                  <p className="text-base font-semibold text-slate-900">
-                    {lang === 'ko' ? `${fellow.name_ko} (${fellow.name})` : `${fellow.name} (${fellow.name_ko})`}
-                  </p>
-                  <p className="mt-1 text-sm font-medium text-primary-600">
-                    {lang === 'ko' ? fellow.role_ko : fellow.role_en}
-                  </p>
-                  <p className="text-sm text-slate-500">
-                    {lang === 'ko' ? (fellow.institution_ko || fellow.institution) : fellow.institution}
-                  </p>
-                  <p className="mt-2 text-sm text-slate-600 leading-relaxed">
-                    {lang === 'ko' ? fellow.desc_ko : fellow.desc_en}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
+            ].map((fellow) => {
+              const hasDesc = lang === 'ko' ? fellow.desc_ko : fellow.desc_en
+              const isExpanded = expandedMember === fellow.name
+              return (
+                <Card
+                  key={fellow.name}
+                  className={`py-0 transition-all ${hasDesc ? 'cursor-pointer hover:shadow-md' : ''}`}
+                  onClick={() => hasDesc && setExpandedMember(isExpanded ? null : fellow.name)}
+                >
+                  <CardContent className="px-4 py-3">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-base font-medium text-slate-700">
+                          {lang === 'ko' ? fellow.name_ko : fellow.name}
+                        </p>
+                        <p className="text-sm text-slate-500">
+                          {lang === 'ko' ? fellow.institution_ko : fellow.institution}
+                        </p>
+                      </div>
+                      {hasDesc && (
+                        <ChevronDown className={`h-4 w-4 text-slate-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+                      )}
+                    </div>
+                    {isExpanded && hasDesc && (
+                      <p className="mt-2 pt-2 border-t border-slate-100 text-sm text-slate-600 leading-relaxed">
+                        {lang === 'ko' ? fellow.desc_ko : fellow.desc_en}
+                      </p>
+                    )}
+                  </CardContent>
+                </Card>
+              )
+            })}
           </div>
         </div>
       </section>
