@@ -84,14 +84,10 @@ export default function MembersPage() {
   }
 
   async function changeRole(memberId, newRole) {
-    const { error } = await supabase
+    await supabase
       .from('profiles')
       .update({ role: newRole })
       .eq('id', memberId)
-    if (error) {
-      console.error('changeRole error:', error)
-      alert(`Error: ${error.message}`)
-    }
     fetchMembers()
   }
 
