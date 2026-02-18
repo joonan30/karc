@@ -28,6 +28,7 @@ const members = [
   { name: 'Prof. So Hyun Kim', name_ko: '김소현 교수', institution: 'Korea Univ.', institution_ko: '고려대학교', area: 'Clinical' },
   { name: 'Prof. Ilbin Kim', name_ko: '김일빈 교수', institution: 'Gangnam CHA Hospital', institution_ko: '강남차병원', area: 'Clinical' },
   { name: 'Prof. Miae Oh', name_ko: '오미애 교수', institution: 'Kyunghee Univ.', institution_ko: '경희대학교', area: 'Clinical' },
+  { name: 'Guiyoung Bong', name_ko: '봉귀영 선생님', institution: 'SNUBH', institution_ko: '분당서울대병원', area: 'Clinical' },
   // Molecular & Translational
   { name: 'Prof. Eunha Kim', name_ko: '김은하 교수', institution: 'Korea Univ.', institution_ko: '고려대학교', area: 'Molecular',
     desc_ko: '사이토카인과 장내미생물을 통한 자폐 기전을 연구합니다', desc: 'Studies autism mechanisms through cytokines and gut microbiome' },
