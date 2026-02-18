@@ -19,7 +19,7 @@ if (search.startsWith('?/')) {
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter basename="/karc">
+    <BrowserRouter>
       <LangProvider>
         <AuthProvider>
           <App />
