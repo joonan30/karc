@@ -49,13 +49,16 @@ export function AuthProvider({ children }) {
 
   async function fetchProfile(userId) {
     try {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', userId)
         .single()
+      console.log('fetchProfile result:', { data, error, userId })
+      if (error) console.error('fetchProfile error:', error)
       setProfile(data)
-    } catch {
+    } catch (e) {
+      console.error('fetchProfile exception:', e)
       setProfile(null)
     } finally {
       setLoading(false)
